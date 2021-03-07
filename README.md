@@ -1,8 +1,9 @@
 
 ### BRonen
 
-Just a nerd bored...
+Just a bored nerd...
 
+[chess.com](https://www.chess.com/member/BRonen_NaN)
 
 <table>
   <tr>
