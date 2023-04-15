@@ -1,4 +1,4 @@
-## Brenno Rodrigues aka BRonen at [@he4rt](https://heartdevs.com)
+## Brenno Rodrigues aka BRonen
 
 <section align="center" style="display: inline_block">
   <img align="center" height="40" width="40" src="https://github.com/devicons/devicon/blob/v2.14.0/icons/typescript/typescript-original.svg" alt="Typescript" />
