@@ -1,120 +1,132 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 ---
 
 <Layout title="Lorem Ipsum">
-	<main>
-		<aside>
-			<img src="https://github.com/bronen.png" alt="profile picture"/>
-			<ul>
-				<a href="https://github.com/bronen">
-					<img src="https://api.iconify.design/mdi:github.svg" alt="github icon1"/>
-				</a>
-				<a href="https://twitter.com/brennokkkk">
-					<img src="https://api.iconify.design/mdi:twitter.svg" alt="twitter icon"/>
-				</a>
-				<a href="mailto:brennopereira6@gmail.com">
-					<img src="https://api.iconify.design/mdi:email.svg" alt="email icon"/>
-				</a>
-			</ul>
-		</aside>
-		<section>
-			<h1>
-				I <i>think</i> therefore it's not
-				<a href="https://letmegooglethat.com/?q=extreme+go+horse" class="text-gradient">XGH</a>
-			</h1>
-			<ul role="list" class="link-card-grid">
-				<Card
-					href="https://docs.astro.build/"
-					title="Documentation"
-					body="Learn how Astro works and explore the official API docs."
-				/>
-				<Card
-					href="https://astro.build/integrations/"
-					title="Integrations"
-					body="Supercharge your project with new frameworks and libraries."
-				/>
-				<Card
-					href="https://astro.build/themes/"
-					title="Themes"
-					body="Explore a galaxy of community-built starter themes."
-				/>
-				<Card
-					href="https://astro.build/chat/"
-					title="Community"
-					body="Come say hi to our amazing Discord community. ❤️"
-				/>
-			</ul>
-		</section>
-	</main>
+  <main>
+    <aside>
+      <img src="https://github.com/bronen.png" alt="profile picture" />
+      <ul>
+        <a href="https://github.com/bronen">
+          <img
+            src="https://api.iconify.design/mdi:github.svg"
+            alt="github icon1"
+          />
+        </a>
+        <a href="https://twitter.com/brennokkkk">
+          <img
+            src="https://api.iconify.design/mdi:twitter.svg"
+            alt="twitter icon"
+          />
+        </a>
+        <a href="mailto:brennopereira6@gmail.com">
+          <img
+            src="https://api.iconify.design/mdi:email.svg"
+            alt="email icon"
+          />
+        </a>
+      </ul>
+    </aside>
+    <section>
+      <h1>
+        I <i>think</i> therefore it's not
+        <a
+          href="https://letmegooglethat.com/?q=extreme+go+horse"
+          class="text-gradient">XGH</a
+        >
+      </h1>
+      <ul role="list" class="link-card-grid">
+        <Card
+          href="https://docs.astro.build/"
+          title="Documentation"
+          body="Learn how Astro works and explore the official API docs."
+        />
+        <Card
+          href="https://astro.build/integrations/"
+          title="Integrations"
+          body="Supercharge your project with new frameworks and libraries."
+        />
+        <Card
+          href="https://astro.build/themes/"
+          title="Themes"
+          body="Explore a galaxy of community-built starter themes."
+        />
+        <Card
+          href="https://astro.build/chat/"
+          title="Community"
+          body="Come say hi to our amazing Discord community. ❤️"
+        />
+      </ul>
+    </section>
+  </main>
 </Layout>
 
 <style>
-	main {
- 		display: flex;
-		justify-content: center;
-		align-items: start;
-		flex-wrap: wrap;
-		gap: 1rem;
-		padding: 2rem;
-	}
-	@media (min-width: 768px) {
-		main {
-			flex-wrap: nowrap;
-			gap: 3rem;
-			padding-top: 25vh;
-		}
-	}
-	aside > img {
-		border-radius: 1rem;
-		width: 10rem;
-		height: 10rem;
-		box-shadow: 0 4px 4px 0 gray;
-	}
-	aside ul {
-		display: flex;
-		justify-content: space-around;
-		padding: 0;
-		margin: 0.5rem 0;
-	}
-	aside ul img {
-		width: 2rem;
-		height: 2rem;
-		cursor: pointer;
-		transition: transform 120ms ease-in-out;
-	}
-	aside ul img:hover {
-		width: 2rem;
-		height: 2rem;
-		transform: scale(1.05);
-	}
-	section h1 {
-		text-align: end;
-		font-family: 'Courier New', Courier, monospace;
-		font-size: 2.5rem;
-		font-weight: bold;
-		margin: 0;
-	}
-	@keyframes dinamicGradient {
-		50% {
-			background-position: bottom right;
-		}
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: top left;
-		animation: dinamicGradient alternate 3s infinite;
-		cursor: pointer;
-		text-decoration: none;
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 2rem;
+  }
+  @media (min-width: 768px) {
+    main {
+      flex-wrap: nowrap;
+      gap: 3rem;
+      padding-top: 25vh;
+    }
+  }
+  aside > img {
+    border-radius: 1rem;
+    width: 10rem;
+    height: 10rem;
+    box-shadow: 0 4px 4px 0 gray;
+  }
+  aside ul {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+  aside ul img {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    transition: transform 120ms ease-in-out;
+  }
+  aside ul img:hover {
+    width: 2rem;
+    height: 2rem;
+    transform: scale(1.05);
+  }
+  section h1 {
+    text-align: end;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  @keyframes dinamicGradient {
+    50% {
+      background-position: bottom right;
+    }
+  }
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: top left;
+    animation: dinamicGradient alternate 3s infinite;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
 </style>
