@@ -108,18 +108,12 @@ import Card from "../components/Card.astro";
     font-weight: bold;
     margin: 0;
   }
-  @keyframes dinamicGradient {
-    50% {
-      background-position: bottom right;
-    }
-  }
   .text-gradient {
     background-image: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 400%;
-    background-position: top left;
-    animation: dinamicGradient alternate 3s infinite;
+    animation: dynamicGradient alternate 3s infinite;
     cursor: pointer;
     text-decoration: none;
   }
