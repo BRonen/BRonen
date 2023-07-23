@@ -1,50 +1,33 @@
 ---
+import PostPreview from "../components/PostPreview.astro";
+import SearchInput from "../components/SearchInput.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Lorem Ipsum">
   <main>
     <nav>
-      <input type="search" placeholder="Search"/>
-      
+      <SearchInput placeholder="search..." expand/>
     </nav>
     <h2>Jul, 2023</h2>
     <a href="#">
-      <section>
-        <h1>title</h1>
-        <p>Lorem ipsum dolor sit let amet</p>
-      </section>
+      <PostPreview title="Test" body="Lorem Ipsum Dolor Sit amet"/>
     </a>
     <a href="#">
-      <section>
-        <h1>title</h1>
-        <p>Lorem ipsum dolor sit let amet</p>
-      </section>
+      <PostPreview title="Test" body="Lorem Ipsum Dolor Sit amet"/>
     </a>
     <a href="#">
-      <section>
-        <h1>title</h1>
-        <p>Lorem ipsum dolor sit let amet</p>
-      </section>
+      <PostPreview title="Test" body="Lorem Ipsum Dolor Sit amet"/>
     </a>
     <h2>Feb, 2022</h2>
     <a href="#">
-      <section>
-        <h1>title</h1>
-        <p>Lorem ipsum dolor sit let amet</p>
-      </section>
+      <PostPreview title="Test" body="Lorem Ipsum Dolor Sit amet"/>
     </a>
     <a href="#">
-      <section>
-        <h1>title</h1>
-        <p>Lorem ipsum dolor sit let amet</p>
-      </section>
+      <PostPreview title="Test" body="Lorem Ipsum Dolor Sit amet"/>
     </a>
     <a href="#">
-      <section>
-        <h1>title</h1>
-        <p>Lorem ipsum dolor sit let amet</p>
-      </section>
+      <PostPreview title="Test" body="Lorem Ipsum Dolor Sit amet"/>
     </a>
   </main>
 </Layout>
@@ -55,14 +38,6 @@ import Layout from "../layouts/Layout.astro";
     display: flex;
     justify-content: end;
     margin-bottom: -2rem;
-  }
-  nav input[type="search"] {
-    outline: none;
-    border: none;
-    border-radius: 0.6rem;
-    padding: 0.70rem 1rem;
-    font-size: 1.2rem;
-    box-shadow: 0px 0.2rem 0.5rem 0.1rem rgba(0, 0, 0, 0.1) inset;
   }
   main {
     display: flex;
@@ -84,32 +59,6 @@ import Layout from "../layouts/Layout.astro";
     min-width: 45%;
     text-decoration: none;
     color: #222;
-  }
-  section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.5rem 2rem;
-    border-radius: 0.6rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    transition: all 150ms ease-in-out;
-  }
-  section:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
-      0 2px 4px -2px rgba(0, 0, 0, 0.15);
-  }
-  section > * {
-  }
-  section h1 {
-    margin: 0;
-    font-size: 1.25rem;
-    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  section p {
-    margin-top: 0.5rem;
-    margin-bottom: 0;
-    color: #444;
   }
   h2 {
     width: 45%;
