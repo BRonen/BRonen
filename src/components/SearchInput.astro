@@ -47,16 +47,15 @@ const { placeholder, expand } = Astro.props;
     width: 3rem;
     transition: width 400ms ease-out;
   }
-  .expand:hover,
-  .expand:focus {
+  .expand:is(:hover, :focus) {
     width: 100%;
   }
   .expand::placeholder,
   .expand::-moz-placeholder {
     opacity: 0;
   }
-  .expand:hover::placeholder,
-  .expand:hover::-moz-placeholder {
+  .expand:is(:hover, :focus)::placeholder,
+  .expand:is(:hover, :focus)::-moz-placeholder {
     opacity: 1;
   }
 </style>
