@@ -4,44 +4,63 @@ import Card from "../components/Card.astro";
 ---
 
 <Layout title="Lorem Ipsum">
-  <aside>
-    <img src="https://github.com/bronen.png" alt="profile picture" />
-    <ul>
-      <a href="https://github.com/bronen">
-        <img
-          src="https://api.iconify.design/mdi:github.svg"
-          alt="github icon"
-        />
-      </a>
-      <a href="https://twitter.com/brennokkkk">
-        <img
-          src="https://api.iconify.design/mdi:twitter.svg"
-          alt="twitter icon"
-        />
-      </a>
-      <a href="mailto:brennopereira6@gmail.com">
-        <img src="https://api.iconify.design/mdi:email.svg" alt="email icon" />
-      </a>
-    </ul>
-  </aside>
-  <section>
-    <h1>
-      I <i>think</i> therefore it's not
-      <a
-        href="https://letmegooglethat.com/?q=extreme+go+horse"
-        class="text-gradient">XGH</a
-      >
-    </h1>
-    <ul role="list" class="link-card-grid">
-      <Card href="/blog" title="Blog" body="Learning tech things in public" />
-      <Card href="#" title="Placeholder" body="Lorem Ipsum" />
-      <Card href="#" title="Placeholder" body="Lorem Ipsum" />
-      <Card href="#" title="Placeholder" body="Lorem Ipsum" />
-    </ul>
-  </section>
+  <main>
+    <aside>
+      <img src="https://github.com/bronen.png" alt="profile picture" />
+      <ul>
+        <a href="https://github.com/bronen">
+          <img
+            src="https://api.iconify.design/mdi:github.svg"
+            alt="github icon"
+          />
+        </a>
+        <a href="https://twitter.com/brennokkkk">
+          <img
+            src="https://api.iconify.design/mdi:twitter.svg"
+            alt="twitter icon"
+          />
+        </a>
+        <a href="mailto:brennopereira6@gmail.com">
+          <img
+            src="https://api.iconify.design/mdi:email.svg"
+            alt="email icon"
+          />
+        </a>
+      </ul>
+    </aside>
+    <section>
+      <h1>
+        I <i>think</i> therefore it's not
+        <a
+          href="https://letmegooglethat.com/?q=extreme+go+horse"
+          class="text-gradient">XGH</a
+        >
+      </h1>
+      <ul role="list" class="link-card-grid">
+        <Card href="/blog" title="Blog" body="Learning tech things in public" />
+        <Card href="#" title="Placeholder" body="Lorem Ipsum" />
+        <Card href="#" title="Placeholder" body="Lorem Ipsum" />
+        <Card href="#" title="Placeholder" body="Lorem Ipsum" />
+      </ul>
+    </section>
+  </main>
 </Layout>
 
 <style>
+  main {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+  }
+	@media (min-width: 768px) {
+		main {
+			flex-wrap: nowrap;
+			gap: 3rem;
+			padding-top: 25vh;
+		}
+	}
   aside > img {
     border-radius: 1rem;
     width: 10rem;
