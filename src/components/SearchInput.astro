@@ -51,4 +51,12 @@ const { placeholder, expand } = Astro.props;
   .expand:focus {
     width: 100%;
   }
+  .expand::placeholder,
+  .expand::-moz-placeholder {
+    opacity: 0;
+  }
+  .expand:hover::placeholder,
+  .expand:hover::-moz-placeholder {
+    opacity: 1;
+  }
 </style>
