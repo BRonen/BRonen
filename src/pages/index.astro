@@ -38,9 +38,11 @@ import Card from "../components/Card.astro";
       </h1>
       <ul role="list" class="link-card-grid">
         <Card href="/blog" title="Blog" body="Learning tech things in public" />
-        <Card href="#" title="Placeholder" body="Lorem Ipsum" />
-        <Card href="#" title="Placeholder" body="Lorem Ipsum" />
-        <Card href="#" title="Placeholder" body="Lorem Ipsum" />
+        <Card
+          href="https://github.com/BRonen"
+          title="Portfolio"
+          body="Take a look at my recent projects"
+        />
       </ul>
     </section>
   </main>
@@ -54,13 +56,13 @@ import Card from "../components/Card.astro";
     gap: 1rem;
     padding: 1rem;
   }
-	@media (min-width: 768px) {
-		main {
-			flex-wrap: nowrap;
-			gap: 3rem;
-			padding-top: 25vh;
-		}
-	}
+  @media (min-width: 768px) {
+    main {
+      flex-wrap: nowrap;
+      gap: 3rem;
+      padding-top: 25vh;
+    }
+  }
   aside > img {
     border-radius: 1rem;
     width: 10rem;
