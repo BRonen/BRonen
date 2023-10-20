@@ -1,5 +1,5 @@
 ---
-import ArticlePreview from "../components/ArticlePreview.astro";
+import ArticleCard from "../components/ArticleCard.astro";
 import SearchInput from "../components/SearchInput.astro";
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
@@ -10,23 +10,16 @@ const articleEntries = await getCollection("article");
 <Layout title="Lorem Ipsum">
   <main>
     <nav>
-      <SearchInput placeholder="search..." expand />
+      <SearchInput placeholder="search..." />
     </nav>
 
-    <h2>Jul, 2023</h2>
-    
-    {
-      articleEntries.map(articleEntry => 
-        <a href={`/blog/${articleEntry.slug}`}>
-          <ArticlePreview
-            title={articleEntry.data.title}
-            body={articleEntry.data.description}
-          />
-        </a>
-      )
-    }
+    <h1>Posts</h1>
 
-    <hr />
+    {articleEntries.map(articleEntry => 
+      <ArticleCard entry={articleEntry}/>
+    )}
+
+    <hr/>
 
   </main>
 </Layout>
@@ -39,6 +32,7 @@ const articleEntries = await getCollection("article");
     flex-wrap: wrap;
     flex-direction: column;
     padding: 1rem 2rem 5rem;
+    font-family: monospace;
   }
   main * {
     width: 100%;
@@ -55,16 +49,11 @@ const articleEntries = await getCollection("article");
   nav {
     display: flex;
     justify-content: end;
-  }
-  a {
-    text-decoration: none;
-    color: #222;
-  }
-  h2 {
-    margin-bottom: 1rem;
+    margin-bottom: 2.5rem;
   }
   hr {
-    width: 25%;
+    color: #00000055;
+    width: 40%;
     margin: 2.5rem 0 1.5rem;
   }
 </style>

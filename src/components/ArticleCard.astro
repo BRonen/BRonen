@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<"article">
+}
+
+const {
+  entry: {
+    data: { title, created_at },
+    slug,
+  }
+} = Astro.props;
+
+const f_created_at = new Date(created_at)
+  .toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }
+  );
+---
+
+<a href={`/blog/${slug}`}>
+  <section>
+    <p>{f_created_at}</p>
+    <h2>{title}</h2>
+  </section>
+</a>
+    
+<style>
+  a {
+    text-decoration: none;
+    color: #222;
+    width: 100%;
+    max-width: 45%;
+  }
+  section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 3rem;
+    margin-top: 0.5rem;
+  }
+  section h2 {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  section:hover h2 {
+    text-decoration-style: solid;
+  }
+  section p {
+    margin: 0;
+    color: #444;
+    font-size: 1.25rem;
+    margin-top: 0.25rem;
+  }
+</style>
