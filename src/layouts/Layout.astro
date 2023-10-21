@@ -10,10 +10,11 @@ const { title } = Astro.props;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
     <title>{title}</title>
   </head>
   <body>
@@ -41,9 +42,8 @@ const { title } = Astro.props;
     font-family: system-ui, sans-serif;
     background-color: var(--background-primary);
   }
-  code {
-    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  * {
+    box-sizing: border-box;
   }
   @keyframes dynamicGradient {
     0% {

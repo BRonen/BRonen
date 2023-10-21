@@ -10,7 +10,7 @@ const articleEntries = await getCollection("article");
 <Layout title="Lorem Ipsum">
   <main>
     <nav>
-      <SearchInput placeholder="search..." />
+      <SearchInput placeholder="Search" />
     </nav>
 
     <h1>Posts</h1>
@@ -26,6 +26,7 @@ const articleEntries = await getCollection("article");
 
 <style>
   main {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,6 +55,6 @@ const articleEntries = await getCollection("article");
   hr {
     color: #00000055;
     width: 40%;
-    margin: 2.5rem 0 1.5rem;
+    margin-top: auto;
   }
 </style>
