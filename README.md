@@ -3,9 +3,9 @@
 <section align="center" style="display: inline_block">
   <img align="center" height="40" width="40" src="https://github.com/devicons/devicon/blob/v2.14.0/icons/typescript/typescript-original.svg" alt="Typescript" />
   <img align="center" height="40" width="40" src="https://github.com/devicons/devicon/blob/v2.14.0/icons/javascript/javascript-original.svg" alt="Javascript" />
-  <img align="center" height="40" width="40" src="https://github.com/devicons/devicon/blob/v2.14.0/icons/react/react-original.svg" alt="React" />
-  <img align="center" height="40" width="40" src="https://github.com/devicons/devicon/blob/v2.14.0/icons/vuejs/vuejs-original.svg" alt="Vue" />
   <img align="center" height="40" width="40" src="https://github.com/devicons/devicon/blob/v2.14.0/icons/nodejs/nodejs-original.svg" alt="NodeJS" />
+  <img align="center" height="40" width="40" src="https://github.com/devicons/devicon/blob/v2.14.0/icons/vuejs/vuejs-original.svg" alt="Vue" />
+  <img align="center" height="40" width="40" src="https://github.com/devicons/devicon/blob/v2.14.0/icons/react/react-original.svg" alt="React" />
 </section>
 
 <hr/>
