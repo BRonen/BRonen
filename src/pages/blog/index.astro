@@ -1,0 +1,140 @@
+---
+import ArticleCard from "../../components/ArticleCard.astro";
+import SearchInput from "../../components/SearchInput.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const articleEntries = await getCollection("article");
+---
+
+<Layout title="Lorem Ipsum">
+  <main>
+    <nav>
+      <SearchInput placeholder="Search" />
+    </nav>
+
+    <h1>Posts</h1>
+
+    <blog-articles-list data-entries={JSON.stringify(articleEntries)}>
+      <ul>
+        {articleEntries.map(articleEntry => 
+          <li class={articleEntry.slug}>
+            <ArticleCard entry={articleEntry}/>
+          </li>
+        )}
+      </ul>
+      <div class="page-links-group">
+        <a class="previous-page-link" href="#">&lt;- previous</a>
+        <a class="next-page-link" href="#">next -&gt;</a>
+      </div>
+    </blog-articles-list>    
+    <hr/>
+
+  </main>
+
+  <script type="text/javascript">
+    class BlogArticlesList extends HTMLElement {
+      constructor() {
+        super();
+        const entries = JSON.parse(this.dataset.entries);
+
+        const params = new URLSearchParams(document.location.search);
+        const page = (parseInt(params.get("page")) || 1) - 1;
+
+        const pageSize = 1;
+
+        const low = page * pageSize;
+        const high = low + pageSize;
+        entries.slice(low, high).forEach(entry => {
+          const itemEl = this.querySelector(`li.${entry.slug}`);
+          if(!itemEl) return;
+
+          itemEl.style.display = 'list-item';
+        });
+
+        const nextPageLink = this.querySelector('a.next-page-link');
+        if(nextPageLink) {
+          nextPageLink.onclick = () => {
+            document.location.search = `?page=${page + 2}`
+          };
+
+          if((page + 1) * pageSize < entries.length)
+            nextPageLink.style.display = 'unset';
+        }
+
+        const previousPageLink = this.querySelector('a.previous-page-link');
+        if(previousPageLink) {
+          previousPageLink.onclick = () => {
+            document.location.search = `?page=${page}`
+          };
+
+          if(page !== 0) previousPageLink.style.display = 'unset';
+        }
+      }
+    }
+
+    customElements.define('blog-articles-list', BlogArticlesList);
+  </script>
+</Layout>
+
+<style>
+  main {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 1rem 2rem 5rem;
+    font-family: monospace;
+  }
+  main * {
+    width: 100%;
+  }
+  @media (min-width: 767px) {
+    main {
+      flex-wrap: nowrap;
+      padding-top: 5rem;
+    }
+    main * {
+      max-width: 45%;
+    }
+  }
+  nav {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 2.5rem;
+  }
+  hr {
+    color: #00000055;
+    width: 40%;
+    margin-top: auto;
+  }
+  main ul {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    list-style-type: none;
+  }
+  main ul li {
+    display: none;
+    max-width: none;
+  }
+  .page-links-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: unset;
+  }
+  .page-links-group .next-page-link,
+  .page-links-group .previous-page-link {
+    display: none;
+    width: 10rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  .page-links-group .next-page-link {
+    text-align: end;
+    margin-left: auto;
+  }
+</style>

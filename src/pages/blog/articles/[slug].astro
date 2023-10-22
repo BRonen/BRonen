@@ -1,18 +1,20 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import LeftArrow from "../../components/icons/LeftArrow.astro";
+import { getCollection } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import LeftArrow from "../../../components/icons/LeftArrow.astro";
+import type {InferGetStaticPropsType, GetStaticPaths} from 'astro';
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = (async () => {
     const articleEntries = await getCollection("article");
 
     return articleEntries.map((entry) => ({
         params: { slug: entry.slug },
         props: { entry },
     }));
-}
+}) satisfies GetStaticPaths;
 
-const entry = Astro.props.entry as CollectionEntry<"article">;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+const { entry } = Astro.props;
 
 const { Content } = await entry.render();
 ---
