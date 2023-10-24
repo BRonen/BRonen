@@ -3,68 +3,70 @@ title: "Index file"
 description: "Lorem Ipsum"
 created_at: 1690942982305
 related_posts:
-- teste
+  - teste
 ---
 
 # Index file
 
-Lorem ipsum dolor sit amet, [consectetur adipiscing elit](https://mdxjs.com "title"). Fusce augue ipsum, pulvinar sed orci ac, commodo efficitur eros. Duis maximus turpis in pretium hendrerit. 
+Lorem ipsum dolor sit amet, [consectetur adipiscing elit](https://mdxjs.com "title"). Fusce augue ipsum, pulvinar sed orci ac, commodo efficitur eros. Duis maximus turpis in pretium hendrerit.
 
 TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
 # h1
+
 ## h2
+
 ### h3
 
-* Lista
-* sem
-* ordem
-    * Lista
-    * [consectetur adipiscing elit](https://mdxjs.com "title")
-    * sem
-    * ordem
-        * Lista
-        * sem
-        * ordem
-            * Lista
-            * [consectetur adipiscing elit](https://mdxjs.com "title")
-            * sem
-            * ordem
-* Lista
-* [consectetur adipiscing elit](https://mdxjs.com "title")
-* sem
-* ordem
+- Lista
+- sem
+- ordem
+  - Lista
+  - [consectetur adipiscing elit](https://mdxjs.com "title")
+  - sem
+  - ordem
+    - Lista
+    - sem
+    - ordem
+      - Lista
+      - [consectetur adipiscing elit](https://mdxjs.com "title")
+      - sem
+      - ordem
+- Lista
+- [consectetur adipiscing elit](https://mdxjs.com "title")
+- sem
+- ordem
 
 1. Lista
 2. Ordenada
 3. Lista
 4. Ordenada
-    1. Lista
-    2. Ordenada
-    3. Lista
-    4. Ordenada
-1. Lista
-2. Ordenada
-3. Lista
-4. Ordenada
+   1. Lista
+   2. Ordenada
+   3. Lista
+   4. Ordenada
+5. Lista
+6. Ordenada
+7. Lista
+8. Ordenada
 
-Etiam *congue* ipsum **vitae est fringilla, sit amet** egestas libero facilisis. Nulla ornare risus id dolor tristique, quis `console.log() console.log() console.log()` porttitor nisi elementum. Praesent ultricies in ligula ut lobortis. Nunc ac lacus at enim aliquam pellentesque. Praesent quis laoreet urna, quis convallis velit. Etiam a leo eget neque tincidunt hendrerit.
+Etiam _congue_ ipsum **vitae est fringilla, sit amet** egestas libero facilisis. Nulla ornare risus id dolor tristique, quis `console.log() console.log() console.log()` porttitor nisi elementum. Praesent ultricies in ligula ut lobortis. Nunc ac lacus at enim aliquam pellentesque. Praesent quis laoreet urna, quis convallis velit. Etiam a leo eget neque tincidunt hendrerit.
 
-***
+---
 
 Nullam leo dui, ullamcorper at semper a, faucibus quis ante. Suspendisse sollicitudin accumsan neque, eu blandit felis tempus in. Nunc molestie molestie lectus a sodales. Ut porta augue eget convallis vehicula. Sed rhoncus porta magna, sed tincidunt justo cursus ac.
 
 ![Teste](/svelte.webp "Testando")
 
-Lorem ipsum dolor sit amet, [consectetur adipiscing elit](https://mdxjs.com "title"). Fusce augue ipsum, pulvinar sed orci ac, commodo efficitur eros. Duis maximus turpis in pretium hendrerit. 
+Lorem ipsum dolor sit amet, [consectetur adipiscing elit](https://mdxjs.com "title"). Fusce augue ipsum, pulvinar sed orci ac, commodo efficitur eros. Duis maximus turpis in pretium hendrerit.
 
-| Ta | Be | La |
-| :---: | :----: | :----: |
+|  Ta  |   Be   |  La   |
+| :--: | :----: | :---: |
 | Left | Center | Right |
 | Left | Center | Right |
 | Left | Center | Right |
 
-Lorem ipsum dolor sit amet, [consectetur adipiscing elit](https://mdxjs.com "title"). Fusce augue ipsum, pulvinar sed orci ac, commodo efficitur eros. Duis maximus turpis in pretium hendrerit. 
+Lorem ipsum dolor sit amet, [consectetur adipiscing elit](https://mdxjs.com "title"). Fusce augue ipsum, pulvinar sed orci ac, commodo efficitur eros. Duis maximus turpis in pretium hendrerit.
 
 <p><span>hello owrld</span></p>
 
@@ -72,29 +74,39 @@ Lorem ipsum dolor sit amet, [consectetur adipiscing elit](https://mdxjs.com "tit
 export default defineConfig({
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
+      theme: "github-dark",
       wrap: true,
-    }
+    },
   },
-  integrations: [mdx(), svelte(), sitemap(), critters(), searchIndexes()]
+  integrations: [mdx(), svelte(), sitemap(), critters(), searchIndexes()],
 });
 export default defineConfig({
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
+      theme: "github-dark",
       wrap: true,
-    }
+    },
   },
-  integrations: [mdx(), svelte(), sitemap(), critters(), searchIndexes()]
+  integrations: [mdx(), svelte(), sitemap(), critters(), searchIndexes()],
 });
 export default defineConfig({
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
+      theme: "github-dark",
       wrap: true,
-    }
+    },
   },
-  integrations: [mdx(), svelte(), sitemap(), critters(), searchIndexes(), svelte(), sitemap(), critters(), searchIndexes()]
+  integrations: [
+    mdx(),
+    svelte(),
+    sitemap(),
+    critters(),
+    searchIndexes(),
+    svelte(),
+    sitemap(),
+    critters(),
+    searchIndexes(),
+  ],
 });
 ```
 

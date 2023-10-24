@@ -1,26 +1,22 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  entry: CollectionEntry<"article">
+  entry: CollectionEntry<"article">;
 }
 
 const {
   entry: {
     data: { title, created_at },
     slug,
-  }
+  },
 } = Astro.props;
 
-const f_created_at = new Date(created_at)
-  .toLocaleDateString(
-    "en-US",
-    {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    }
-  );
+const f_created_at = new Date(created_at).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
 ---
 
 <a href={`/blog/articles/${slug}`}>
@@ -29,7 +25,7 @@ const f_created_at = new Date(created_at)
     <h2>{title}</h2>
   </section>
 </a>
-    
+
 <style>
   a {
     text-decoration: none;
@@ -42,8 +38,8 @@ const f_created_at = new Date(created_at)
     align-items: center;
     width: 100%;
     margin-top: 0.5rem;
-    margin-bottom: .75rem;
-    padding-bottom: .75rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
     border-bottom: 1px dotted black;
   }
   a:hover section {

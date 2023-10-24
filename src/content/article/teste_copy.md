@@ -3,8 +3,8 @@ title: "Test file copy"
 description: "Hello world!"
 created_at: 1690942982305
 related_posts:
-- index
-- teste
+  - index
+  - teste
 ---
 
 # Test file
@@ -17,4 +17,4 @@ Donec consequat a leo sed interdum. Nullam pellentesque lacus tortor, non conseq
 
 Donec dapibus quis sapien sed mattis. Nunc hendrerit elementum turpis, vel sodales odio feugiat eget. Nulla a molestie ante. Cras cursus lorem a urna luctus, vehicula consectetur odio condimentum. Curabitur et sagittis nulla. Duis varius gravida purus non condimentum. Nulla lectus diam, scelerisque eget convallis id, sodales eget nisl.
 
-Proin egestas ac libero non sollicitudin. Pellentesque sollicitudin ligula vulputate, viverra quam tempus, pharetra mauris. Ut quis urna odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae sapien tempus, finibus ipsum at, iaculis ipsum. Vivamus porta nunc sit amet gravida euismod. Curabitur gravida mauris quis vestibulum mattis. Ut lorem augue, blandit non purus eget, fermentum accumsan dui. 
+Proin egestas ac libero non sollicitudin. Pellentesque sollicitudin ligula vulputate, viverra quam tempus, pharetra mauris. Ut quis urna odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae sapien tempus, finibus ipsum at, iaculis ipsum. Vivamus porta nunc sit amet gravida euismod. Curabitur gravida mauris quis vestibulum mattis. Ut lorem augue, blandit non purus eget, fermentum accumsan dui.

@@ -7,11 +7,7 @@ interface Props {
 const { placeholder, expand } = Astro.props;
 ---
 
-<input
-    type="search"
-    class:list={[ { expand } ]}
-    placeholder={placeholder}
-/>
+<input type="search" class:list={[{ expand }]} placeholder={placeholder} />
 
 <style>
   input {
