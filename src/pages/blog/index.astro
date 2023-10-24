@@ -35,26 +35,24 @@ const articleEntries = await getCollection("article");
 
   <script type="text/javascript">
     class BlogArticlesList extends HTMLElement {
-      pageSize = 1;
       searchInputEl = document.querySelector("input[type=search]");
       previousPageLinkEl = this.querySelector("a.previous-page-link");
       nextPageLinkEl = this.querySelector("a.next-page-link");
+      pageSize = 1;
 
       constructor() {
         super();
         const params = new URLSearchParams(document.location.search);
 
         this.query = params.get("query") || "";
-        this.currentPage = parseInt(params.get("page")) || 1;
-        this.low = (this.currentPage - 1) * this.pageSize;
-        this.high = this.low + this.pageSize;
+        this.setCurrentPage(parseInt(params.get("page")));
 
         this.entries = JSON.parse(this.dataset.entries);
 
         this.searchInputEl.value = this.query;
         this.searchInputEl.onkeyup = () => {
           this.query = this.searchInputEl.value;
-          this.currentPage = 1;
+          this.setCurrentPage(1);
 
           this.render();
         };
@@ -70,7 +68,34 @@ const articleEntries = await getCollection("article");
 
         this.renderEntries();
         this.renderPaginationButtons();
+      }
 
+      renderEntries() {
+        this.entries.forEach((entry) => {
+          const itemEl = this.querySelector(`li.${entry.slug}`);
+          if (!itemEl) return;
+
+          itemEl.style.display = "none";
+        });
+
+        this.entries
+          .filter((entry) =>
+            entry.data.title.toLowerCase().includes(this.query.toLowerCase())
+          )
+          .forEach((entry, index) => {
+            const itemEl = this.querySelector(`li.${entry.slug}`);
+            if (!itemEl) return;
+
+            if (index < this.low || index >= this.high) {
+              itemEl.style.display = "none";
+              return;
+            };
+
+            itemEl.style.display = "list-item";
+          });
+      }
+
+      renderPaginationButtons() {
         const entriesLength = this.entries.filter((entry) =>
           entry.data.title.toLowerCase().includes(this.query.toLowerCase())
         );
@@ -82,44 +107,22 @@ const articleEntries = await getCollection("article");
         if (this.currentPage > 1)
           this.previousPageLinkEl.style.display = "unset";
         else this.previousPageLinkEl.style.display = "none";
-      }
 
-      renderEntries() {
-        this.entries.forEach((entry, index) => {
-          const itemEl = this.querySelector(`li.${entry.slug}`);
-          if (!itemEl) return;
-          itemEl.style.display = "none";
-        });
-
-        this.entries
-          .filter((entry) =>
-            entry.data.title.toLowerCase().includes(this.query.toLowerCase())
-          )
-          .forEach((entry, index) => {
-            const itemEl = this.querySelector(`li.${entry.slug}`);
-
-            if (!itemEl) return;
-
-            if (index < this.low || index >= this.high) return;
-
-            itemEl.style.display = "list-item";
-          });
-      }
-
-      renderPaginationButtons() {
         this.nextPageLinkEl.onclick = () => {
-          this.currentPage += 1;
-          this.low = (this.currentPage - 1) * this.pageSize;
-          this.high = this.low + this.pageSize;
+          this.setCurrentPage(this.currentPage + 1);
           this.render();
         };
 
         this.previousPageLinkEl.onclick = () => {
-          this.currentPage -= 1;
-          this.low = (this.currentPage - 1) * this.pageSize;
-          this.high = this.low + this.pageSize;
+          this.setCurrentPage(this.currentPage - 1);
           this.render();
         };
+      }
+
+      setCurrentPage(page) {
+        this.currentPage = page || 1;
+        this.low = (this.currentPage - 1) * this.pageSize;
+        this.high = this.low + this.pageSize;
       }
     }
 
