@@ -17,63 +17,113 @@ const articleEntries = await getCollection("article");
 
     <blog-articles-list data-entries={JSON.stringify(articleEntries)}>
       <ul>
-        {articleEntries.map(articleEntry => 
-          <li class={articleEntry.slug}>
-            <ArticleCard entry={articleEntry}/>
-          </li>
-        )}
+        {
+          articleEntries.map((articleEntry) => (
+            <li class={articleEntry.slug}>
+              <ArticleCard entry={articleEntry} />
+            </li>
+          ))
+        }
       </ul>
       <div class="page-links-group">
         <a class="previous-page-link" href="#">&lt;- previous</a>
         <a class="next-page-link" href="#">next -&gt;</a>
       </div>
-    </blog-articles-list>    
-    <hr/>
-
+    </blog-articles-list>
+    <hr />
   </main>
 
   <script type="text/javascript">
     class BlogArticlesList extends HTMLElement {
+      pageSize = 1;
+      searchInputEl = document.querySelector("input[type=search]");
+      previousPageLinkEl = this.querySelector("a.previous-page-link");
+      nextPageLinkEl = this.querySelector("a.next-page-link");
+
       constructor() {
         super();
-        const entries = JSON.parse(this.dataset.entries);
-
         const params = new URLSearchParams(document.location.search);
-        const page = (parseInt(params.get("page")) || 1) - 1;
 
-        const pageSize = 1;
+        this.query = params.get("query") || "";
+        this.currentPage = parseInt(params.get("page")) || 1;
+        this.low = (this.currentPage - 1) * this.pageSize;
+        this.high = this.low + this.pageSize;
 
-        const low = page * pageSize;
-        const high = low + pageSize;
-        entries.slice(low, high).forEach(entry => {
+        this.entries = JSON.parse(this.dataset.entries);
+
+        this.searchInputEl.value = this.query;
+        this.searchInputEl.onkeyup = () => {
+          this.query = this.searchInputEl.value;
+          this.currentPage = 1;
+
+          this.render();
+        };
+
+        this.render();
+      }
+
+      render() {
+        const url = new URL(window.location);
+        url.searchParams.set("query", this.query);
+        url.searchParams.set("page", this.currentPage);
+        history.pushState({}, null, url);
+
+        this.renderEntries();
+        this.renderPaginationButtons();
+
+        const entriesLength = this.entries.filter((entry) =>
+          entry.data.title.toLowerCase().includes(this.query.toLowerCase())
+        );
+
+        if ((this.currentPage + 1) * this.pageSize <= entriesLength.length)
+          this.nextPageLinkEl.style.display = "unset";
+        else this.nextPageLinkEl.style.display = "none";
+
+        if (this.currentPage > 1)
+          this.previousPageLinkEl.style.display = "unset";
+        else this.previousPageLinkEl.style.display = "none";
+      }
+
+      renderEntries() {
+        this.entries.forEach((entry, index) => {
           const itemEl = this.querySelector(`li.${entry.slug}`);
-          if(!itemEl) return;
-
-          itemEl.style.display = 'list-item';
+          if (!itemEl) return;
+          itemEl.style.display = "none";
         });
 
-        const nextPageLink = this.querySelector('a.next-page-link');
-        if(nextPageLink) {
-          nextPageLink.onclick = () => {
-            document.location.search = `?page=${page + 2}`
-          };
+        this.entries
+          .filter((entry) =>
+            entry.data.title.toLowerCase().includes(this.query.toLowerCase())
+          )
+          .forEach((entry, index) => {
+            const itemEl = this.querySelector(`li.${entry.slug}`);
 
-          if((page + 1) * pageSize < entries.length)
-            nextPageLink.style.display = 'unset';
-        }
+            if (!itemEl) return;
 
-        const previousPageLink = this.querySelector('a.previous-page-link');
-        if(previousPageLink) {
-          previousPageLink.onclick = () => {
-            document.location.search = `?page=${page}`
-          };
+            if (index < this.low || index >= this.high) return;
 
-          if(page !== 0) previousPageLink.style.display = 'unset';
-        }
+            itemEl.style.display = "list-item";
+          });
+      }
+
+      renderPaginationButtons() {
+        this.nextPageLinkEl.onclick = () => {
+          this.currentPage += 1;
+          this.low = (this.currentPage - 1) * this.pageSize;
+          this.high = this.low + this.pageSize;
+          this.render();
+        };
+
+        this.previousPageLinkEl.onclick = () => {
+          this.currentPage -= 1;
+          this.low = (this.currentPage - 1) * this.pageSize;
+          this.high = this.low + this.pageSize;
+          this.render();
+        };
       }
     }
 
-    customElements.define('blog-articles-list', BlogArticlesList);
+    customElements.define("blog-articles-list", BlogArticlesList);
   </script>
 </Layout>
 
