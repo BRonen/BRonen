@@ -8,9 +8,9 @@
     "preview": "astro preview",
     "check": "astro check --watch",
     "astro": "astro",
-    "lint": "eslint \"src/**/*.{ts,js,astro}\"",
-    "lint:fix": "eslint \"src/**/*.{ts,js,astro}\" --fix",
-    "prettier": "prettier --write . --plugin=prettier-plugin-astro"
+    "lint": "eslint \"src/**/*.{ts,js,astro}\" --cache .",
+    "lint:fix": "eslint \"src/**/*.{ts,js,astro}\" --fix --cache .",
+    "format": "prettier --write . --plugin=prettier-plugin-astro"
   },
   "dependencies": {
     "astro": "^2.9.0"
