@@ -1,6 +1,7 @@
 ---
 import ArticleCard from "../../components/ArticleCard.astro";
 import SearchInput from "../../components/SearchInput.astro";
+import LeftArrow from "../../components/icons/LeftArrow.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
@@ -10,6 +11,7 @@ const articleEntries = await getCollection("article");
 <Layout title="Lorem Ipsum">
   <main>
     <nav>
+      <a href="/"><LeftArrow /> <span>Home</span></a>
       <SearchInput placeholder="Search" />
     </nav>
 
@@ -78,6 +80,16 @@ const articleEntries = await getCollection("article");
   main ul li {
     display: none;
     max-width: none;
+  }
+  main a {
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    text-decoration: none;
+    color: unset;
+  }
+  main a span {
+    margin-left: 0.5rem;
   }
   .page-links-group {
     display: flex;

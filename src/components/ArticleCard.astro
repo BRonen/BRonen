@@ -48,12 +48,12 @@ const f_created_at = new Date(created_at).toLocaleDateString("en-US", {
   section h2 {
     margin: 0;
     text-align: end;
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
   section p {
     margin: 0;
     color: #444;
-    font-size: 1.25rem;
+    font-size: 1rem;
     margin-top: 0.25rem;
   }
   @media (min-width: 767px) {
@@ -64,6 +64,12 @@ const f_created_at = new Date(created_at).toLocaleDateString("en-US", {
       align-items: center;
       justify-content: space-between;
       gap: 3rem;
+    }
+    section h2 {
+      font-size: 1.25rem;
+    }
+    section p {
+      font-size: 1.25rem;
     }
   }
 </style>
