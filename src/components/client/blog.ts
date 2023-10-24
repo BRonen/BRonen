@@ -1,7 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 
 class BlogArticlesList extends HTMLElement {
-  pageSize = 1;
+  pageSize = 10;
   query = "";
   entries: CollectionEntry<"article">[];
 
