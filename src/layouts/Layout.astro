@@ -23,37 +23,12 @@ const { title } = Astro.props;
 </html>
 <style is:global>
   :root,
-  body {
-    --primary-background: #f0f0fc;
-    --secondary-background: #ffffff;
-    --accent-primary: #7c3aed;
-    --accent-secondary: #da32a4;
-    --accent-gradient: linear-gradient(
-      75deg,
-      var(--accent-primary),
-      var(--accent-secondary),
-      var(--accent-secondary),
-      var(--accent-primary)
-    );
-    height: 100%;
-    margin: 0;
-  }
+  body,
   html {
-    font-family: system-ui, sans-serif;
-    background-color: var(--background-primary);
+    height: 100%;
+    background-color: #eff1f5;
   }
   * {
     box-sizing: border-box;
-  }
-  @keyframes dynamicGradient {
-    0% {
-      background-position: top left;
-    }
-    50% {
-      background-position: bottom right;
-    }
-    100% {
-      background-position: top left;
-    }
   }
 </style>

@@ -4,39 +4,55 @@ import Card from "../components/Card.astro";
 ---
 
 <Layout title="[Object object]">
-  <main>
+  <main
+    class="flex flex-col md:flex-row justify-center gap-8 md:gap-12 mx-auto pt-12 px-6 md:pt-[25vh] text-latte-text"
+  >
     <aside>
-      <img src="https://github.com/bronen.png" alt="profile picture" />
-      <ul>
-        <a href="https://github.com/bronen">
-          <img
-            src="https://api.iconify.design/mdi:github.svg"
-            alt="github icon"
-          />
-        </a>
-        <a href="https://twitter.com/brennokkkk">
-          <img
-            src="https://api.iconify.design/mdi:twitter.svg"
-            alt="twitter icon"
-          />
-        </a>
-        <a href="mailto:brennopereira6@gmail.com">
-          <img
-            src="https://api.iconify.design/mdi:email.svg"
-            alt="email icon"
-          />
-        </a>
+      <img
+        src="https://github.com/bronen.png"
+        alt="profile picture"
+        class="rounded-2xl w-[10rem] mb-2 shadow-md mx-auto"
+      />
+      <ul class="flex justify-around w-[10rem] mx-auto">
+        <li>
+          <a href="https://github.com/bronen">
+            <img
+              src="https://api.iconify.design/mdi:github.svg?color=%233c3f59"
+              alt="github icon"
+              class="w-[2rem]"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/brennokkkk">
+            <img
+              src="https://api.iconify.design/mdi:twitter.svg?color=%233c3f59"
+              alt="twitter icon"
+              class="w-[2rem]"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="mailto:brennopereira6@gmail.com">
+            <img
+              src="https://api.iconify.design/mdi:email.svg?color=%233c3f59"
+              alt="email icon"
+              class="w-[2rem]"
+            />
+          </a>
+        </li>
       </ul>
     </aside>
-    <section>
-      <h1>
+    <section class="h-full">
+      <h1 class="text-end font-mono text-4xl font-bold">
         I <i>think</i> therefore it's not
         <a
           href="https://letmegooglethat.com/?q=extreme+go+horse"
-          class="text-gradient">XGH</a
+          class="bg-clip-text text-transparent bg-[length:400%] bg-gradient-to-r from-latte-mauve via-latte-magenta to-latte-mauve animate-oscillation"
+          >XGH</a
         >
       </h1>
-      <ul role="list" class="link-card-grid">
+      <ul class="flex flex-col md:flex-row gap-4 mt-4 w-full h-full">
         <Card href="/blog" title="Blog" body="Learning tech things in public" />
         <Card
           href="https://github.com/BRonen"
@@ -47,59 +63,3 @@ import Card from "../components/Card.astro";
     </section>
   </main>
 </Layout>
-
-<style>
-  main {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1rem;
-  }
-  @media (min-width: 768px) {
-    main {
-      flex-wrap: nowrap;
-      gap: 3rem;
-      padding-top: 25vh;
-    }
-  }
-  aside > img {
-    border-radius: 1rem;
-    width: 10rem;
-    height: 10rem;
-    box-shadow: 0 4px 4px 0 gray;
-  }
-  aside ul {
-    display: flex;
-    justify-content: space-around;
-    padding: 0;
-    margin: 0.5rem 0;
-  }
-  aside ul img {
-    width: 2rem;
-    height: 2rem;
-    cursor: pointer;
-  }
-  section h1 {
-    text-align: end;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin: 0;
-  }
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    animation: dynamicGradient alternate 3s infinite;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .link-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-    gap: 1rem;
-    padding: 0;
-  }
-</style>
