@@ -45,7 +45,7 @@ class BlogArticlesList extends HTMLElement {
     const url = new URL(window.location.href);
     url.searchParams.set("query", this.query);
     url.searchParams.set("page", String(this.currentPage));
-    history.pushState({}, "", url);
+    history.replaceState({}, "", url);
 
     this.renderEntries();
     this.renderPaginationButtons();
