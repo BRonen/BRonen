@@ -9,13 +9,18 @@ const articleEntries = await getCollection("article");
 ---
 
 <Layout title="Lorem Ipsum">
-  <main>
-    <nav>
-      <a href="/"><LeftArrow /> <span>Home</span></a>
+  <main
+    class="relative mx-auto pt-8 md:pt-10 text-latte-text max-w-4xl font-sans h-full"
+  >
+    <nav class="flex gap-8 h-12 mb-6">
+      <a href="/" class="flex items-center gap-3 text-xl">
+        <LeftArrow />
+        <span>Home</span>
+      </a>
       <SearchInput placeholder="Search" />
     </nav>
 
-    <h1>Posts</h1>
+    <h1 class="text-2xl font-mono font-bold">Posts</h1>
 
     <blog-articles-list data-entries={JSON.stringify(articleEntries)}>
       <ul>
@@ -27,85 +32,19 @@ const articleEntries = await getCollection("article");
           ))
         }
       </ul>
-      <div class="page-links-group">
-        <a class="previous-page-link" href="#">&lt;- previous</a>
-        <a class="next-page-link" href="#">next -&gt;</a>
+      <div class="flex justify-between gap-12 mt-10">
+        <a class="text-latte-text w-48" href="#" id="previous-page-link"
+          >&lt;- previous</a
+        >
+        <a
+          class="text-latte-text w-48 ml-auto text-end"
+          href="#"
+          id="next-page-link">next -&gt;</a
+        >
       </div>
     </blog-articles-list>
-    <hr />
+    <hr class="absolute bottom-16 w-full border-latte-surface2" />
   </main>
 
   <script src="../../components/client/blog.ts"></script>
 </Layout>
-
-<style>
-  main {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-    padding: 1rem 2rem 5rem;
-    font-family: monospace;
-  }
-  main * {
-    width: 100%;
-  }
-  @media (min-width: 767px) {
-    main {
-      flex-wrap: nowrap;
-      padding-top: 5rem;
-    }
-    main * {
-      max-width: 45%;
-    }
-  }
-  nav {
-    display: flex;
-    justify-content: end;
-    margin-bottom: 2.5rem;
-  }
-  hr {
-    color: #00000055;
-    width: 40%;
-    margin-top: auto;
-  }
-  main ul {
-    width: 100%;
-    max-width: none;
-    padding: 0;
-    list-style-type: none;
-  }
-  main ul li {
-    display: none;
-    max-width: none;
-  }
-  main a {
-    display: flex;
-    align-items: center;
-    font-size: 1.3rem;
-    text-decoration: none;
-    color: unset;
-  }
-  main a span {
-    margin-left: 0.5rem;
-  }
-  .page-links-group {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: unset;
-  }
-  .page-links-group .next-page-link,
-  .page-links-group .previous-page-link {
-    display: none;
-    width: 10rem;
-    font-size: 1rem;
-    margin-top: 1rem;
-  }
-  .page-links-group .next-page-link {
-    text-align: end;
-    margin-left: auto;
-  }
-</style>

@@ -26,7 +26,6 @@ module.exports = {
           blue: "#1e66f5",
           gray: "#3c3f59",
           text: "#4c4f69",
-          text: "#4c4f69",
           subtext1: "#5c5f77",
           subtext0: "#6c6f85",
           overlay2: "#7c7f93",

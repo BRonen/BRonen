@@ -1,31 +1,27 @@
 ---
 interface Props {
   placeholder: string;
-  expand?: boolean;
 }
 
-const { placeholder, expand } = Astro.props;
+const { placeholder } = Astro.props;
 ---
 
-<input type="search" class:list={[{ expand }]} placeholder={placeholder} />
+<input
+  type="search"
+  placeholder={placeholder}
+  class="bg-latte-base placeholder:text-latte-overlay1
+    p-4 ml-auto h-full w-1/2
+    border border-latte-surface2 rounded-lg outline-none"
+/>
 
 <style>
   input {
     /* icon at the end of the input */
-    background-color: #fff;
+    background-color: #eff1f5;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjMDAwMDAwMzMiIGQ9Ik0xNS41IDE0aC0uNzlsLS4yOC0uMjdBNi40NzEgNi40NzEgMCAwIDAgMTYgOS41QTYuNSA2LjUgMCAxIDAgOS41IDE2YzEuNjEgMCAzLjA5LS41OSA0LjIzLTEuNTdsLjI3LjI4di43OWw1IDQuOTlMMjAuNDkgMTlsLTQuOTktNXptLTYgMEM3LjAxIDE0IDUgMTEuOTkgNSA5LjVTNy4wMSA1IDkuNSA1UzE0IDcuMDEgMTQgOS41UzExLjk5IDE0IDkuNSAxNHoiLz48L3N2Zz4=);
     background-position: right 0.55rem center;
     background-size: 26px;
     background-repeat: no-repeat;
-
-    height: 3rem;
-    width: 100%;
-
-    outline: none;
-    border: 1px solid #0003;
-    border-radius: 0.6rem;
-    padding: 0.7rem 1rem;
-    font-size: 1rem;
   }
   input::-webkit-search-cancel-button {
     appearance: none;
@@ -37,20 +33,5 @@ const { placeholder, expand } = Astro.props;
     height: 1.6rem;
     width: 1.6rem;
     cursor: pointer;
-  }
-  .expand {
-    width: 3rem;
-    transition: width 400ms ease-out;
-  }
-  .expand:is(:hover, :focus) {
-    width: 100%;
-  }
-  .expand::placeholder,
-  .expand::-moz-placeholder {
-    opacity: 0;
-  }
-  .expand:is(:hover, :focus)::placeholder,
-  .expand:is(:hover, :focus)::-moz-placeholder {
-    opacity: 1;
   }
 </style>

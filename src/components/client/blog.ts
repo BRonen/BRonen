@@ -17,8 +17,8 @@ class BlogArticlesList extends HTMLElement {
     const params = new URLSearchParams(document.location.search);
 
     this.searchInputEl = document.querySelector("input[type=search]");
-    this.previousPageLinkEl = this.querySelector("a.previous-page-link");
-    this.nextPageLinkEl = this.querySelector("a.next-page-link");
+    this.previousPageLinkEl = this.querySelector("a#previous-page-link");
+    this.nextPageLinkEl = this.querySelector("a#next-page-link");
 
     this.query = params.get("query") || "";
     this.setCurrentPage(params.get("page"));
@@ -82,7 +82,7 @@ class BlogArticlesList extends HTMLElement {
     );
 
     if (this.nextPageLinkEl) {
-      if ((this.currentPage + 1) * this.pageSize <= entriesLength.length)
+      if (this.currentPage * this.pageSize < entriesLength.length)
         this.nextPageLinkEl.style.display = "unset";
       else this.nextPageLinkEl.style.display = "none";
 
