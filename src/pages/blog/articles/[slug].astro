@@ -30,11 +30,16 @@ const { Content } = await entry.render();
       <LeftArrow />
       <span>Back</span>
     </a>
-    <Content />
+    <div class="prose w-full max-w-none mb-12">
+      <Content />
+    </div>
+
+    <hr class="mb-16 w-full border-latte-surface2" />
   </main>
 </Layout>
 <style is:global>
   main .astro-code {
+    font-family: monospace;
     overflow-y: scroll;
     padding: 0.75rem 1rem;
   }
