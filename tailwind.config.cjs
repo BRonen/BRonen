@@ -49,6 +49,29 @@ module.exports = {
       animation: {
         oscillation: "oscillate alternate 3s infinite",
       },
+
+      typography: ({ theme }) => ({
+        latte: {
+          css: {
+            "--tw-prose-body": theme("colors.latte[text]"),
+            "--tw-prose-headings": theme("colors.latte[gray]"),
+            "--tw-prose-links": theme("colors.latte[sapphire]"),
+            "--tw-prose-bold": theme("colors.latte[gray]"),
+            "--tw-prose-counters": theme("colors.latte[gray]"),
+            "--tw-prose-bullets": theme("colors.latte[gray]"),
+            "--tw-prose-hr": theme("colors.latte[surface2]"),
+            "--tw-prose-quotes": theme("colors.latte[subtext1]"),
+            "--tw-prose-quote-borders": theme("colors.latte[surface1]"),
+            "--tw-prose-code": theme("colors.latte[gray]"),
+            "--tw-prose-th-borders": theme("colors.latte[surface2]"),
+            "--tw-prose-td-borders": theme("colors.latte[surface0]"),
+            // '--tw-prose-lead': theme('colors.latte[green]'),
+            // '--tw-prose-captions': theme('colors.pink[700]'),
+            // '--tw-prose-pre-code': theme('colors.pink[100]'),
+            // '--tw-prose-pre-bg': theme('colors.pink[900]'),
+          },
+        },
+      }),
     },
   },
   plugins: [require("@tailwindcss/typography")],

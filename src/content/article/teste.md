@@ -4,7 +4,7 @@ description: "Hello world!"
 created_at: 1690942982305
 related_posts:
   - index
-  - teste
+  - teste_copy
 ---
 
 # Test file
