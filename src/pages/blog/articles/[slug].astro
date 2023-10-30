@@ -8,7 +8,7 @@ export const getStaticPaths = (async () => {
   const articleEntries = await getCollection("article");
 
   return articleEntries.map((entry) => {
-    const relatedPosts = entry.data.related_posts.map((related) =>
+    const relatedPosts = entry.data.related_posts?.map((related) =>
       articleEntries.find((entry) => entry.slug === related.slug),
     );
 
@@ -40,30 +40,32 @@ const { Content } = await entry.render();
       <Content />
     </div>
 
-    <hr class="mb-8 w-full border-latte-surface2" />
-
-    <div class="flex">
-      {
-        relatedPosts[1] && (
-          <a
+    {relatedPosts && <>
+      <hr class="mb-8 w-full border-latte-surface2" />
+      
+      <div class="flex">
+        {
+          relatedPosts[1] && (
+            <a
             href={`/blog/articles/${relatedPosts[1].slug}`}
             class="flex break-keep items-center text-xl w-full mb-8"
-          >
+            >
             <span class="mr-4">&larr;</span> {relatedPosts[1].data.title}
-          </a>
-        )
-      }
-      {
-        relatedPosts[0] && (
-          <a
+            </a>
+            )
+          }
+        {
+          relatedPosts[0] && (
+            <a
             href={`/blog/articles/${relatedPosts[0].slug}`}
             class="flex break-keep items-center text-xl text-end ml-auto mb-8"
-          >
+            >
             {relatedPosts[0].data.title} <span class="ml-4">&rarr;</span>
-          </a>
-        )
-      }
-    </div>
+            </a>
+            )
+          }
+      </div>
+    </>}
   </main>
 </Layout>
 <style is:global>
