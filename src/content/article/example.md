@@ -2,8 +2,7 @@
 title: "Lorem ipsum dolor sit amet"
 description: "Lorem Ipsum"
 created_at: 1690942982305
-related_posts:
-  - teste
+archived: true
 ---
 
 # Index file

@@ -6,7 +6,8 @@ const articleCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     created_at: z.number(),
-    related_posts: z.array(reference("article")),
+    related_posts: z.array(reference("article")).optional(),
+    archived: z.boolean(),
   }),
 });
 
