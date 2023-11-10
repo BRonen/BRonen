@@ -114,3 +114,42 @@ Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac tu
 Interdum et malesuada fames ac ante ipsum primis in faucibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam ac finibus urna, ornare sodales ante. In elementum a ante vel pharetra. Vestibulum sit amet vehicula nunc, ac commodo neque. Nulla sit amet faucibus lectus, ac facilisis nisl. Phasellus hendrerit, ipsum eu ornare viverra, orci tortor posuere nulla, id lacinia nisl metus vitae lorem. Nulla sed dolor vel turpis dictum blandit.
 
 Etiam suscipit diam eu pulvinar tincidunt. Suspendisse elementum rhoncus libero, in porttitor odio finibus finibus. Nunc leo mauris, dictum sed mattis vel, pretium quis ligula. Vestibulum a purus sed magna malesuada interdum consequat et eros. Praesent ac eleifend ipsum, sit amet vulputate lacus. Integer lacinia vestibulum enim, non pulvinar massa venenatis vel.
+
+```
+stateDiagram-v2
+[*] --> Still
+Still --> [*]
+Still --> Moving
+Moving --> Still
+Moving --> Crash
+Crash --> [*]
+```
+
+<div class="flex flex-col lg:flex-row items-center gap-1">
+  <pre class="mermaid">
+    stateDiagram-v2 
+    [*] --> Still
+    Still --> Moving
+    Still --> [*]
+    Moving --> Still
+    Crash --> [*]
+    Moving --> Crash
+  </pre>
+  <pre class="mermaid">
+    graph TD 
+    A[Client] --> B[Load Balancer] 
+    B --> C[Server01] 
+    B --> D[Server02]
+  </pre>
+  <pre class="mermaid w-full">
+    erDiagram
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : has
+    CUSTOMER ||--o{ ORDER : places
+    CUSTOMER ||--o{ INVOICE : "liable for"
+    DELIVERY-ADDRESS ||--o{ ORDER : receives
+    INVOICE ||--|{ ORDER : covers
+    ORDER ||--|{ ORDER-ITEM : includes
+    PRODUCT-CATEGORY ||--|{ PRODUCT : contains
+    PRODUCT ||--o{ ORDER-ITEM : "ordered in"
+  </pre>
+</div>

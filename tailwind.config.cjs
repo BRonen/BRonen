@@ -69,6 +69,7 @@ module.exports = {
             // '--tw-prose-captions': theme('colors.pink[700]'),
             // '--tw-prose-pre-code': theme('colors.pink[100]'),
             // '--tw-prose-pre-bg': theme('colors.pink[900]'),
+            pre: { backgroundColor: 'transparent' },
           },
         },
       }),
