@@ -3,6 +3,8 @@ title: "Lorem ipsum dolor sit amet"
 description: "Lorem Ipsum"
 created_at: 1690942982305
 archived: true
+related_posts:
+  - example
 ---
 
 # Index file
