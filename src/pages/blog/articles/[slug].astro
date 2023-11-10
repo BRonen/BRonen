@@ -29,10 +29,7 @@ const { Content } = await entry.render();
   <main
     class="relative mx-auto pt-8 md:pt-10 px-4 mb-8 text-latte-text max-w-4xl h-full break-all"
   >
-    <a
-      href="/blog"
-      class="flex items-center gap-3 font-sans text-xl h-12 mb-6"
-    >
+    <a href="/blog" class="flex items-center gap-3 font-sans text-xl h-12 mb-6">
       <LeftArrow />
       <span>Back</span>
     </a>
@@ -40,32 +37,32 @@ const { Content } = await entry.render();
       <Content />
     </div>
 
-    {relatedPosts && <>
-      <hr class="mb-8 w-full border-latte-surface2" />
-      
-      <div class="flex">
-        {
-          relatedPosts[1] && (
-            <a
-            href={`/blog/articles/${relatedPosts[1].slug}`}
-            class="flex break-keep items-center text-xl w-full mb-8"
-            >
-            <span class="mr-4">&larr;</span> {relatedPosts[1].data.title}
-            </a>
-            )
-          }
-        {
-          relatedPosts[0] && (
-            <a
-            href={`/blog/articles/${relatedPosts[0].slug}`}
-            class="flex break-keep items-center text-xl text-end ml-auto mb-8"
-            >
-            {relatedPosts[0].data.title} <span class="ml-4">&rarr;</span>
-            </a>
-            )
-          }
-      </div>
-    </>}
+    {
+      relatedPosts && (
+        <>
+          <hr class="mb-8 w-full border-latte-surface2" />
+
+          <div class="flex">
+            {relatedPosts[1] && (
+              <a
+                href={`/blog/articles/${relatedPosts[1].slug}`}
+                class="flex break-keep items-center text-xl w-full mb-8"
+              >
+                <span class="mr-4">&larr;</span> {relatedPosts[1].data.title}
+              </a>
+            )}
+            {relatedPosts[0] && (
+              <a
+                href={`/blog/articles/${relatedPosts[0].slug}`}
+                class="flex break-keep items-center text-xl text-end ml-auto mb-8"
+              >
+                {relatedPosts[0].data.title} <span class="ml-4">&rarr;</span>
+              </a>
+            )}
+          </div>
+        </>
+      )
+    }
   </main>
   <!-- loading mermaid script -->
   <script src="../../../scripts/mermaid.ts"></script>

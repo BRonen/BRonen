@@ -6,7 +6,9 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 const articleCollection = await getCollection("article");
-const articleEntries = articleCollection.filter(entry => !entry.data.archived);
+const articleEntries = articleCollection.filter(
+  (entry) => !entry.data.archived,
+);
 ---
 
 <Layout title="Lorem Ipsum">
