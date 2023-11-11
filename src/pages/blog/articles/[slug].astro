@@ -29,11 +29,11 @@ const { Content } = await entry.render();
   <main
     class="relative mx-auto pt-8 md:pt-10 px-4 mb-8 text-latte-text max-w-4xl h-full break-all"
   >
-    <a href="/blog" class="flex items-center gap-3 font-sans text-xl h-12 mb-6">
+    <a href="/blog" class="flex items-center gap-3 font-mono text-xl h-12 mb-6">
       <LeftArrow />
       <span>Back</span>
     </a>
-    <div class="prose prose-latte w-full max-w-none mb-12">
+    <div class="prose prose-latte prose-headings:font-mono prose-p:break-normal prose-p:text-justify w-full max-w-none mb-12">
       <Content />
     </div>
 
