@@ -5,7 +5,7 @@ description: "Some ideas about transactions, locks, isolation levels and anomali
 created_at: 1699586143462
 archived: false
 related_posts:
- - thinking_about_database_anomalies
+  - thinking_about_database_anomalies
 ---
 
 # Thinking about database anomalies
@@ -15,8 +15,8 @@ When working on relational databases there are some guarantees called [ACID](htt
 Let's start with a simple situation, imagine that you have a system that holds a balance of each user in some SQL database.
 
 | user A       | user B      |
-|--------------|-------------|
-| id:        1 | id:       2 |
+| ------------ | ----------- |
+| id: 1        | id: 2       |
 | balance: 100 | balance: 50 |
 
 If you would like to enable payments to happen between users but keeping the balance of all them positive, how would you implement this? Consider the examples running in a Postgres.
