@@ -7,6 +7,6 @@ import prefetch from "@astrojs/prefetch";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://bronen.com.br',
-  integrations: [tailwind(), critters(), sitemap(), prefetch()]
+  site: "https://bronen.com.br",
+  integrations: [tailwind(), critters(), sitemap(), prefetch()],
 });
