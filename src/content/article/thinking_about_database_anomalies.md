@@ -1,14 +1,13 @@
 ---
-title: "Thinking about database anomalies"
-
+title: "Thinking About Database Anomalies"
 description: "Some ideas about transactions, locks, isolation levels and anomalies."
 created_at: 1699586143462
-archived: false
+archived: true
 related_posts:
   - thinking_about_database_anomalies
 ---
 
-# Thinking about database anomalies
+# Thinking About Database Anomalies
 
 When working on relational databases there are some guarantees called [ACID](https://en.wikipedia.org/wiki/ACID), but these guarantees are not really so safe than we usually think.
 
@@ -21,7 +20,7 @@ Let's start with a simple situation, imagine that you have a system that holds a
 
 If you would like to enable payments to happen between users but keeping the balance of all them positive, how would you implement this? Consider the examples running in a Postgres.
 
-## Implementing payments feature
+## Implementing Payments Feature
 
 The naivest solution that I can think is something like these three queries:
 
@@ -57,7 +56,7 @@ $stmt->execute();
 ?>
 ```
 
-## Data racing
+## Data Racing
 
 This solution seems to work well with a few users, but what happens if two payments of the same sender happens at almost the same time?
 
@@ -113,9 +112,9 @@ $db->commit();
 ?>
 ```
 
-But this snippet has a Write Skew anomaly. Both transactions still runs at same time because the first operation is a Select and by default the transactions doesn't get a lock on the row that they Select, so both will still run at same that and give the same result of the last time. Why it happens if the transactions should be isolated?
+But this snippet has a Write Skew anomaly. Both transactions still runs at same time because the first operation is a Select and by default the transactions doesn't get a lock on the row that they Select, so both will still run at same time and give the same result of the last time. Why it happens if the transactions was supposed to be isolated?
 
-## Isolation levels
+## Isolation Levels
 
 There are plenty levels of isolation on transactions, the Postgres default is called READ COMMITED. This level means that a transaction can select only the most recent commited version of every row. So if an updated has happened but not committed, the transaction will receive a possible stale version of the rows because of the risk of the another transaction being rollbacked.
 
@@ -125,11 +124,29 @@ But what means being locked by a transaction?
 
 ## Locking
 
-When the database recognizes some operations that aren't safe to execute at same time, it tries to isolate the transaction running them sequencially. Most of the time the locks are made by the database due to the isolation level, but there are ways to [manually locking](https://www.postgresql.org/docs/current/sql-lock.html) the rows of a transaction.
+When the database recognizes some operations that aren't safe to execute in parallel, it keeps a lock on the resource and the lock prevents to run another transaction that needs this resource until the first is completed and the lock is released.
 
-## Pessimistic locking
+Most of the time the locks are automatically made by the database based on the isolation level, but there are ways to [manually locking](https://www.postgresql.org/docs/current/sql-lock.html) the rows of a transaction.
 
-## Optimistic locking
+## Pessimistic Locking
+
+> Two-phase locking is a so-called pessimistic concurrency control mechanism: it is based on the principle that if anything might possibly go wrong (as indicated by a lock held by another transaction), it’s better to wait until the situation is safe again before doing anything. It is like mutual exclusion, which is used to protect data structures in multi-threaded programming.
+>
+> Serial execution is, in a sense, pessimistic to the extreme: it is essentially equivalent to each transaction having an exclusive lock on the entire database (or one partition of the database) for the duration of the transaction. (...)
+
+This paragraph was taken of a book called "[Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/)". The strategy of preventing errors to happen using this type of lock are called a pessimistic solution, but this isn't the only type of solution.
+
+## Optimistic Locking
+
+> By contrast, serializable snapshot isolation is an optimistic concurrency control technique. Optimistic in this context means that instead of blocking if something potentially dangerous happens, transactions continue anyway, in the hope that everything will turn out all right. When a transaction wants to commit, the database checks whether anything bad happened (i.e., whether isolation was violated); if so, the transaction is aborted and has to be retried. Only transactions that executed serializably are allowed to commit.
+>
+> (...) It performs badly if there is high contention (many transactions trying to access the same objects), as this leads to a high proportion of transactions needing to abort. If the system is already close to its maximum throughput, the additional transaction load from retried transactions can make performance worse.
+>
+> However, if there is enough spare capacity, and if contention between transactions is not too high, optimistic concurrency control techniques tend to perform better than pessimistic ones. (...)
+
+But one consideration that we need to have is that if the application don't receive conflitant requests so often, then locking everything to always blocking another transactions to use the same data is quite a waste of performance just to handle some possible rare cases. In this situation there is a better option to handle these cases.
+
+## Check Constraint
 
 ---
 
@@ -137,9 +154,10 @@ When the database recognizes some operations that aren't safe to execute at same
 
 - [https://www.postgresql.org/docs/8.2/transaction-iso.html](https://www.postgresql.org/docs/8.2/transaction-iso.html)
 - [https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html](https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html)
-- [https://www.mongodb.com/docs/manual/core/read-isolation-consistency-recency/](https://www.mongodb.com/docs/manual/core/read-isolation-consistency-recency/)
 - [https://poorlydefinedbehaviour.github.io/posts/isolation_levels/](https://poorlydefinedbehaviour.github.io/posts/isolation_levels/)
 - [https://docs.yugabyte.com/preview/architecture/transactions/isolation-levels/](https://docs.yugabyte.com/preview/architecture/transactions/isolation-levels/)
 - [https://www.databass.dev/](https://www.databass.dev/)
 - [https://www.postgresql.org/docs/current/explicit-locking.html](https://www.postgresql.org/docs/current/explicit-locking.html)
 - [https://www.ibm.com/docs/en/rational-clearquest/7.1.0](https://www.ibm.com/docs/en/rational-clearquest/7.1.0)
+- [https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/)
+- [https://www.postgresql.org/docs/current/sql-lock.html](https://www.postgresql.org/docs/current/sql-lock.html)
