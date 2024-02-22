@@ -81,7 +81,7 @@ This solution seems to work well with a few users, but what happens if two payme
 
 On the diagram we can see that if we check the balance right before another connection runs the update, the sender balance check that we did gets outdated and then we lose the non negative values guarantee.
 
-One idea that comes in mind to solve this could be doing this operations inside a transaction, so we could run them sequencially due to the atomicity, right?
+One idea that comes in mind to solve this could be doing this operations inside a transaction, so we could run them sequencially due to the isolation, right?
 
 ```php
 <?php
