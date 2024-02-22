@@ -2,7 +2,7 @@
 title: "Thinking About Database Anomalies"
 description: "Some ideas about transactions, locks, isolation levels and anomalies."
 created_at: 1699586143462
-archived: true
+archived: false
 related_posts:
   - thinking_about_database_anomalies
 ---
@@ -43,13 +43,13 @@ if ($senderUser["balance"] - $amount < 0) {
 }
 
 // increase the balance of the receiver with the amount
-$stmt = $db->exec("UPDATE user SET balance = balance + :amount WHERE id = :receiverId;");
+$stmt = $db->exec("UPDATE users SET balance = balance + :amount WHERE id = :receiverId;");
 $stmt->bindParam(":amount", $amount);
 $stmt->bindParam(":receiverId", $receiverId);
 $stmt->execute();
 
 // decrease the balance of the sender by the same amount
-$stmt = $db->exec("UPDATE user SET balance = balance - :amount WHERE id = :senderId;");
+$stmt = $db->exec("UPDATE users SET balance = balance - :amount WHERE id = :senderId;");
 $stmt->bindParam(":amount", $amount);
 $stmt->bindParam(":senderId", $senderId);
 $stmt->execute();
@@ -98,12 +98,12 @@ if($user["balance"] - $amount < 0)
     return;
 }
 
-$stmt = $db->exec("UPDATE user SET balance = balance + :amount WHERE id = :receiverId;");
+$stmt = $db->exec("UPDATE users SET balance = balance + :amount WHERE id = :receiverId;");
 $stmt->bindParam(":amount", $amount);
 $stmt->bindParam(":receiverId", $receiverId);
 $stmt->execute();
 
-$stmt = $db->exec("UPDATE user SET balance = balance - :amount WHERE id = :senderId;");
+$stmt = $db->exec("UPDATE users SET balance = balance - :amount WHERE id = :senderId;");
 $stmt->bindParam(":amount", $amount);
 $stmt->bindParam(":senderId", $senderId);
 $stmt->execute();
@@ -148,6 +148,16 @@ But one consideration that we need to have is that if the application don't rece
 
 ## Check Constraint
 
+If you already know some SQL, maybe you already reached a better solution to this situation without using locks. One resource that most of the databases have is the [Check Constraint](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-CHECK-CONSTRAINTS), this constraint defines that some column needs to satisfy a boolean expression.
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT,
+    balance NUMERIC CHECK (balance > 0)
+);
+```
+
 ---
 
 ## References and suggestions
@@ -161,3 +171,4 @@ But one consideration that we need to have is that if the application don't rece
 - [https://www.ibm.com/docs/en/rational-clearquest/7.1.0](https://www.ibm.com/docs/en/rational-clearquest/7.1.0)
 - [https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/)
 - [https://www.postgresql.org/docs/current/sql-lock.html](https://www.postgresql.org/docs/current/sql-lock.html)
+- [https://www.postgresql.org/docs/current/ddl-constraints.html](https://www.postgresql.org/docs/current/ddl-constraints.html)
