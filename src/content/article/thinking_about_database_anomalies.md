@@ -9,7 +9,7 @@ related_posts:
 
 # Thinking About Database Anomalies
 
-When working on relational databases there are some guarantees called [ACID](https://en.wikipedia.org/wiki/ACID), but these guarantees are not really so safe than we usually think.
+When working on relational databases there are some guarantees called [ACID](https://en.wikipedia.org/wiki/ACID), but these guarantees are not as safe as we usually think.
 
 Let's start with a simple situation, imagine that you have a system that holds a balance of each user in some SQL database.
 
@@ -18,11 +18,11 @@ Let's start with a simple situation, imagine that you have a system that holds a
 | id: 1        | id: 2       |
 | balance: 100 | balance: 50 |
 
-If you would like to enable payments to happen between users but keeping the balance of all them positive, how would you implement this? Consider the examples running in a Postgres.
+If you would like to enable payments to happen between users but keep the balance of all of them positive, how would you implement this? Consider the examples running in a Postgres.
 
 ## Implementing Payments Feature
 
-The naivest solution that I can think is something like these three queries:
+The most naive solution that I can think of is something like these three queries:
 
 ```php
 <?php
@@ -58,7 +58,7 @@ $stmt->execute();
 
 ## Data Racing
 
-This solution seems to work well with a few users, but what happens if two payments of the same sender happens at almost the same time?
+This solution seems to work well with a few users, but what happens if two payments of the same sender happen at almost the same time?
 
 <pre class="mermaid">
     sequenceDiagram
@@ -66,22 +66,22 @@ This solution seems to work well with a few users, but what happens if two payme
     participant DB as Database
     participant C2 as Connection 2
     C1->>DB: SELECT balance FROM users WHERE id = 1;
-    Note over C1,DB: Here the Connection 1 gets the value of 100
+    Note over C1, DB: Here Connection 1 gets a value of 100
     C2->>DB: SELECT balance FROM users WHERE id = 1;
-    Note over C2,DB: Here the Connection 2 gets the value of 100
+    Note over C2, DB: Here Connection 2 gets a value of 100
     C1->>DB: UPDATE user SET balance = balance - 100 WHERE id = 1;
     C2->>DB: UPDATE user SET balance = balance - 100 WHERE id = 1;
     C1->>DB: UPDATE user SET balance = balance + 100 WHERE id = 2;
     C2->>DB: UPDATE user SET balance = balance + 100 WHERE id = 2;
     C1->>DB: COMMIT;
-    Note over C1,DB: Here the Connection 2 sets the sender balance to 0
+    Note over C1, DB: Here Connection 2 sets the sender balance to 0
     C2->>DB: COMMIT;
-    Note over C2,DB: Here the Connection 2 sets the sender balance to -100
+    Note over C2, DB: Here Connection 2 sets the sender balance to -100
 </pre>
 
-On the diagram we can see that if we check the balance right before another connection runs the update, the sender balance check that we did gets outdated and then we lose the non negative values guarantee.
+On the diagram, we can see that if we check the balance right before another connection runs the update, the sender balance check that we did gets outdated and then we lose the non-negative values guarantee.
 
-One idea that comes in mind to solve this could be doing this operations inside a transaction, so we could run them sequencially due to the isolation, right?
+One idea that comes to mind to solve this could be doing these operations inside a transaction, so we could run them sequentially due to the isolation, right?
 
 ```php
 <?php
@@ -112,21 +112,21 @@ $db->commit();
 ?>
 ```
 
-But this snippet has a Write Skew anomaly. Both transactions still runs at same time because the first operation is a Select and by default the transactions doesn't get a lock on the row that they Select, so both will still run at same time and give the same result of the last time. Why it happens if the transactions was supposed to be isolated?
+But this snippet has a Write Skew anomaly. Both transactions still run at the same time because the first operation is a Select and by default, the transactions don't get a lock on the row that they Select, so both will still run at the same time and give the same result as the last time. Why did it happen if the transactions were supposed to be isolated?
 
 ## Isolation Levels
 
-There are plenty levels of isolation on transactions, the Postgres default is called READ COMMITED. This level means that a transaction can select only the most recent commited version of every row. So if an updated has happened but not committed, the transaction will receive a possible stale version of the rows because of the risk of the another transaction being rollbacked.
+There are plenty of levels of isolation on transactions, the Postgres default is called READ COMMITTED. This level means that a transaction can select only the most recent committed version of every row. So if an update has happened but is not committed, the transaction will receive a possible stale version of the rows because of the risk of another transaction being rollbacked.
 
-In the example, the default isolation doesn't prevents a row of being select by two transactions at same time. But the users can specify another isolation level to get the right garantees that they need like Serializable, in this case the transaction will lock every row selected or updated by the transaction and prevent they of being readed or changed by another transaction at same time.
+In the example, the default isolation doesn't prevent a row from being selected by two transactions at the same time. But the users can specify another isolation level to get the right guarantees that they need like Serializable. In this case, the transaction will lock every row selected or updated by the transaction and prevent them from being read or changed by another transaction at the same time.
 
-But what means being locked by a transaction?
+But what mean to be locked by a transaction?
 
 ## Locking
 
-When the database recognizes some operations that aren't safe to execute in parallel, it keeps a lock on the resource and the lock prevents to run another transaction that needs this resource until the first is completed and the lock is released.
+When the database recognizes some operations that aren't safe to execute in parallel, it keeps a lock on the resource and the lock prevents running another transaction that needs this resource until the first is completed and the lock is released.
 
-Most of the time the locks are automatically made by the database based on the isolation level, but there are ways to [manually locking](https://www.postgresql.org/docs/current/sql-lock.html) the rows of a transaction.
+Most of the time the locks are automatically made by the database based on the isolation level, but there are ways to [manually lock](https://www.postgresql.org/docs/current/sql-lock.html) the rows of a transaction.
 
 ## Pessimistic Locking
 
@@ -134,7 +134,7 @@ Most of the time the locks are automatically made by the database based on the i
 >
 > Serial execution is, in a sense, pessimistic to the extreme: it is essentially equivalent to each transaction having an exclusive lock on the entire database (or one partition of the database) for the duration of the transaction. (...)
 
-This paragraph was taken of a book called "[Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/)". The strategy of preventing errors to happen using this type of lock are called a pessimistic solution, but this isn't the only type of solution.
+This paragraph was taken from a book called "[Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/)". The strategy of preventing errors from happening using this type of lock is called a pessimistic solution, but this isn't the only type of solution.
 
 ## Optimistic Locking
 
@@ -144,7 +144,7 @@ This paragraph was taken of a book called "[Designing Data-Intensive Application
 >
 > However, if there is enough spare capacity, and if contention between transactions is not too high, optimistic concurrency control techniques tend to perform better than pessimistic ones. (...)
 
-But one consideration that we need to have is that if the application don't receive conflitant requests so often, then locking everything to always blocking another transactions to use the same data is quite a waste of performance just to handle some possible rare cases. In this situation there is a better option to handle these cases.
+But one consideration that we need to have is that if the application doesn't receive conflicting requests so often, then locking everything to always block another transaction to use the same data is quite a waste of performance just to handle some possible rare cases. In this situation, there is a better option to handle these cases.
 
 ## Check Constraint
 
@@ -172,3 +172,4 @@ CREATE TABLE users (
 - [https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/)
 - [https://www.postgresql.org/docs/current/sql-lock.html](https://www.postgresql.org/docs/current/sql-lock.html)
 - [https://www.postgresql.org/docs/current/ddl-constraints.html](https://www.postgresql.org/docs/current/ddl-constraints.html)
+- [https://on-systems.tech/blog/128-preventing-read-committed-sql-concurrency-errors/](https://on-systems.tech/blog/128-preventing-read-committed-sql-concurrency-errors/)
