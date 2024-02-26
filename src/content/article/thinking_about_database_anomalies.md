@@ -162,6 +162,8 @@ CREATE TABLE users (
 
 ## References and suggestions
 
+Here are some examples of anomalies and each solution implementation: [https://github.com/bronen/database-anomalies](https://github.com/bronen/database-anomalies)
+
 - [https://www.postgresql.org/docs/8.2/transaction-iso.html](https://www.postgresql.org/docs/8.2/transaction-iso.html)
 - [https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html](https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html)
 - [https://poorlydefinedbehaviour.github.io/posts/isolation_levels/](https://poorlydefinedbehaviour.github.io/posts/isolation_levels/)
