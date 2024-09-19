@@ -28,7 +28,9 @@ const articleEntries = articleCollection.filter(
     <blog-articles-list data-entries={JSON.stringify(articleEntries)}>
       <ul>
         {
-          articleEntries.map((articleEntry) => (
+          articleEntries
+          .sort((f, s) => s.data.created_at - f.data.created_at)
+          .map((articleEntry) => (
             <li class={articleEntry.slug}>
               <ArticleCard entry={articleEntry} />
             </li>
