@@ -1,5 +1,8 @@
 { pkgs ? import <nixpkgs> {} }:
 
 pkgs.mkShell {
-  nativeBuildInputs = [ pkgs.nodejs-18_x pkgs.nodePackages.pnpm ];
+  nativeBuildInputs = with pkgs.nodePackages; [
+    nodejs
+    pnpm
+  ];
 }
