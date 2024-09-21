@@ -1,21 +1,20 @@
 ---
-title: "Code as data, data is code but everything as trees"
-description: "How parsers and trees shape code interpretation."
+title: "Code is data and data as code"
+description: "How programming languages transform code."
 created_at: 1726708881000
 archived: false
 related_posts:
   - thinking_about_database_anomalies
 ---
 
-# Code as data, data is code but everything as trees
+# Code is data and data as code
 
-Most of the time we don't really know how programming languages turns or code into real programs. How they get my program source code as a text file and turns it into a real program that a computer can understand and execute?
+Really often I meet someone who don't really know how programming languages turns or code into real programs, like "how they get my program source code as a text file and turns it into a real program that a computer can understand and execute?
+There is an AI on my computer reading the code and telling the computer what it needs to do? There is a magic black box that nobody knows how works doing this job inside my computer?"
 
-There is an AI on my computer reading the code and telling the computer what it needs to do? There is a magic black box that anyone knows how works doing the job inside the machine?
+Nah, programming languages just transforms code into data and then handle data as code
 
-Nah, just code being transformed into data and data representing code.
-
-## Code as data
+## Code is data
 
 The main idea when thinking about an interpreter is that code is just data, and the raw data that we write don't have so much information to work with. So on the first step we only have a raw text source that we don't even know if it's a valid program.
 
@@ -157,7 +156,7 @@ With a tree defining our code, we can do more checkings easier. We could navigat
 
 Some languages takes it as an disadvantage because they prefer to be more flexible to what the developer want to write, but it has a lot of trade-offs that I will not write about here.
 
-## Everything as trees
+## Everything comes from trees
 
 With this structured code representation we can do a lot of useful things. The simplest use case is to just navigate over the tree applying the language execution logic to each node.
 

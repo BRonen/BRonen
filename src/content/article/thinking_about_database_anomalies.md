@@ -4,7 +4,7 @@ description: "Some ideas about transactions, locks, isolation levels and anomali
 created_at: 1699586143462
 archived: false
 related_posts:
-  - code_as_data_data_as_code_but_everything_as_trees
+  - code_is_data_and_data_as_code
 ---
 
 # Thinking About Database Anomalies
