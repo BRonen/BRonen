@@ -9,14 +9,7 @@ related_posts:
 
 # Code is data and data as code
 
-Really often I meet someone who don't really know how programming languages turns or code into real programs, like "how they get my program source code as a text file and turns it into a real program that a computer can understand and execute?
-There is an AI on my computer reading the code and telling the computer what it needs to do? There is a magic black box that nobody knows how works doing this job inside my computer?"
-
-Nah, programming languages just transforms code into data and then handle data as code
-
-## Code is data
-
-The main idea when thinking about an interpreter is that code is just data, and the raw data that we write don't have so much information to work with. So on the first step we only have a raw text source that we don't even know if it's a valid program.
+When working with interpreters and compilers, the general idea is that code is just data and the raw data that we write don't have so much information to work with. So to be able to compute a text with the source of a program we need to do some steps.
 
 ```js
 // consider this as just a text file
@@ -24,29 +17,7 @@ let x = 2 + 3;
 print(x);
 ```
 
-So we need to check if its a valid program and transform it into a structure that is easier to the computer to understand, we need to get more information about the source code we are handling. The first usual step is to break the source text into a sequence of tokens to be able to analyze better the structure of the text, we call this step as *lexer analysis*.
-
-```js
-["let", "x", "=", "y", "&", "3", ";", "print", "(", "x", ")", ";"]
-```
-
-Here we already can check the structure of the language grammar, it defines the relation between the language tokens. One way to represent the grammar of a language is by using [BNF (Backus-Naur Form)](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form), the next snippet defines in the grammar how arithmetic operators will be relationed with the numbers in this language.
-
-```rs
-<operator> ::= <operator> " + " <operator> | <operator> " - " <operator> | <value>
-<value> ::= [0-9]
-```
-
-The grammar that I used on the whole snippet including the "let" and the print is next one. You can try checking this grammar over your own input [here](https://bnfplayground.pauliankline.com/).
-
-```rs
-<print> ::= "print" "(" <operator> ")" ";" | <let>
-<let> ::= "let " ([a-z] | [A-Z])+ "=" <operator> ";" <print> | <operator>
-<operator> ::= <operator> "+" <operator> | <operator> "-" <operator> | <value>
-<value> ::= [a-z] ([a-z] | [0-9])* | [0-9]+
-```
-
-With this grammar rules we can check if the sequence of tokens that we have is valid while transforming the source into the tokens of our language. The next snippet breaks a string into tokens following the grammar specification.
+The interpreter needs to check if it's a valid program and transform it into a structure easier to compute. The first thing we could do to get more information about the source code is to break the source text into a sequence of tokens, this way we are able to reason about the structure we are handling, we call this step as *lexer analysis*.
 
 ```ts
 const lexer = (source: string): string[] => {
@@ -65,42 +36,119 @@ const lexer = (source: string): string[] => {
 };
 ```
 
-## Data as code
+```js
+// The result of this funcion being applied on our first snippet
+["let", "x", "=", "y", "&", "3", ";", "print", "(", "x", ")", ";"]
+```
 
-Considering that we have a valid sequence of tokens we can transform our data into a structure easier to handle on next steps. This structure will still represent the original code but in a easier way to work with.
+This structure still represents the original code, but now we can validate if it follows the specification of how a program in this language needs to be written. To validate this kind of rules we must first define the grammar of the language.
 
-There are a lot of strategies to transform this sequence into data structures, this step is called *parsing*. Usually we represent it as trees because the recursive nature of trees of this grammar turns representing and handling code as trees a lot easier. Most of the scenarios a structure can contain itself like in arithmetic expressions (a sum can contain another sum, like in "1 + (2 + 3)") or in usual statements (most of the languages can have nested loops or conditionals).
+The grammar is a set of rules that defines the relation between the language tokens. One way to represent the grammar of this language is by using [BNF (Backus-Naur Form)](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form). The next snippet defines the grammar that I used to on the first snippet, you can try checking this grammar over your own input [here](https://bnfplayground.pauliankline.com/).
+
+```rs
+<print> ::= "print" "(" <operator> ")" ";" | <let>
+<let> ::= "let " ([a-z] | [A-Z])+ "=" <operator> ";" <print> | <operator>
+<operator> ::= <operator> "+" <operator> | <operator> "-" <operator> | <operator> "*" <operator> | <operator> "/" <operator> | <value>
+<value> ::= [a-z] ([a-z] | [0-9])* | [0-9]+
+```
+
+If the sequece that we have is valid, then we can already execute it by just iterating over the tokens and computing the result.
+
+```ts
+const naiveInterprete = (tokenList: string[], context: Record<string, number>, acc: number): [number, string[]] => {
+  const [token, ...tokens] = tokenList;
+  console.log(token, tokens, isNaN(Number(token)));
+
+  if (!isNaN(Number(token))) {
+    const operatorAhead = ["+", "-", "*", "/"].includes(tokens[0]);
+    
+    if (operatorAhead)
+      return naiveInterprete(tokens, context, Number(token));
+
+    return [Number(token), tokens];
+  }
+
+  if (token === "print") {
+    const openbraces = tokens[0];
+    const [result, [closebraces, ...remaining]] = naiveInterprete(tokens.slice(1), context, 0)
+    console.log(result);
+    return [result, remaining];
+  }
+
+  if (token === "let") {
+    const variable = tokens[0];
+    const equal = tokens[1];
+    const [value, [semicolon, ...remaining]] = naiveInterprete(tokens.slice(2), context, 0);
+    return naiveInterprete(remaining, {[variable]: value, ...context}, 0);
+  }
+
+  if (token === "+") {
+    const [value, remaining] = naiveInterprete(tokens, context, 0); 
+    return [acc + value, remaining];
+  }
+
+  if (token === "-") {
+    const [value, remaining] = naiveInterprete(tokens, context, 0); 
+    return [acc - value, remaining];
+  }
+
+  if (token === "*") {
+    const [value, remaining] = naiveInterprete(tokens, context, 0); 
+    return [acc * value, remaining];
+  }
+    
+  if (token === "/") {
+    const [value, remaining] = naiveInterprete(tokens, context, 0);
+    return [acc / value, remaining]
+  }
+
+  return [context[token], tokens];
+};
+```
+
+One crucial point that you must notice in this example is that it do not have arithmetic precedence, if we run "4 * 2 - 3 * 2" the result will be -16. Adding rules of how to compute these tokens will grow the complexity of this interpreter really quickly because the more complex the rules that you follow, the more specific the implementation will need to be to these rules.
+
+So it's really useful to transform this data into a structure easier to apply rules, this step is called *parsing*. There are a lot of strategies to do that, usually we represent it as trees because this way it keeps natural to apply rules over the precedence of the evaluation.
 
 ```js
-// here we defined or let as a tree and the next operations are inside it
+// definition of the let as a tree and the next operations are inside it,
+// tokens that are not useful at this point like braces and semicolons are discarted.
 { node: "let",
   var: "x",
   value: { node: "sum", left: 2, right: 3 },
   next: { node: "print", value: { node: "variable", value: "x" } } }
 ```
 
-There is an example of how to parse the tokens to have a tree like this.
+There is an example of how to write a parser that transforms the tokens sequence into a tree.
 
 ```ts
 type Value = { node: "number", value: number }
            | { node: "variable", value: string };
 
-type Operator = { node: "sum"
-                  left: Value
-                  right: Operator }
-              | { node: "subtraction"
-                  left: Value
-                  right: Operator }
-              | Value;
+type LowOperator = { node: "sum"
+                     left: Value
+                     right: LowOperator }
+                 | { node: "subtraction"
+                     left: Value
+                     right: LowOperator }
+                 | Value;
+
+type HighOperator = { node: "multiply"
+                      left: LowOperator
+                      right: HighOperator }
+                  | { node: "division"
+                      left: LowOperator
+                      right: HighOperator }
+                  | LowOperator;
 
 type Let = { node: "let"
              variable: string
-             value: Operator
+             value: HighOperator
              next: Print }
-         | Operator;
+         | HighOperator;
 
 type Print = { node: "print"
-               value: Operator }
+               value: HighOperator }
            | Let;
 
 const parseValue = (tokenList: string[]): [Value, string[]] => {
@@ -112,39 +160,66 @@ const parseValue = (tokenList: string[]): [Value, string[]] => {
   return [{ node: "number", value: Number(token) }, tokens];
 };
 
-const parseOperator = (tokenList: string[]): [Operator, string[]] => {
-  const [value, operator, ...tokens] = tokenList;
+
+const parseLowOperator = (tokenList: string[]): [LowOperator, string[]] => {
+  const [left, tokens] = parseValue(tokenList);
+
+  if (tokens.length === 0) {
+    return [left, tokens];
+  }
+
+  const [operator, ...rest] = tokens;
+
+  if (operator === "*") {
+    const [right, remainingTokens] = parseLowOperator(rest);
+    return [{ node: "multiply", left, right }, remainingTokens];
+  }
+
+  if (operator === "/") {
+    const [right, remainingTokens] = parseLowOperator(rest);
+    return [{ node: "division", left, right }, remainingTokens];
+  }
+
+  return [left, tokens];
+};
+
+const parseHighOperator = (tokenList: string[]): [HighOperator, string[]] => {
+  const [left, tokens] = parseLowOperator(tokenList);
+
+  if (tokens.length === 0) {
+    return [left, tokens];
+  }
+
+  const [operator, ...rest] = tokens;
 
   if (operator === "+") {
-    const [left, _] = parseValue([value, ...tokens]);
-    const [right, remaining] = parseOperator(tokens);
-    return [{ node: "sum", left, right }, remaining];
+    const [right, remainingTokens] = parseHighOperator(rest);
+    return [{ node: "sum", left, right }, remainingTokens];
   }
 
   if (operator === "-") {
-    const [left, _] = parseValue([value, ...tokens]);
-    const [right, remaining] = parseOperator(tokens);
-    return [{ node: "subtraction", left, right }, remaining];
+    const [right, remainingTokens] = parseHighOperator(rest);
+    return [{ node: "subtraction", left, right }, remainingTokens];
   }
 
-  return parseValue(tokenList);
+  return [left, tokens];
 };
 
 const parseLet = (tokenList: string[]): [Let, string[]] => {
   const [token, variable, equal, ...operator] = tokenList;
   if (token === "let" && equal === "=") {
-    const [value, [semicolon, ...print]] = parseOperator(operator);
+    const [value, [semicolon, ...print]] = parseHighOperator(operator);
     const [next, remaining] = parse(print);
     return [{ node: "let", variable, value, next }, remaining];
   }
 
-  return parseOperator(tokenList);
+  return parseHighOperator(tokenList);
 };
 
 const parse = (tokenList: string[]): [Print, string[]] => {
   const [print, openbraces, ...tokens] = tokenList;
   if (print == "print") {
-    const [value, [closebraces, semicolon, ...remaining]] = parseOperator(tokens);
+    const [value, [closebraces, semicolon, ...remaining]] = parseHighOperator(tokens);
     return [{ node: "print", value }, remaining];
   }
   
@@ -152,13 +227,7 @@ const parse = (tokenList: string[]): [Print, string[]] => {
 };
 ```
 
-With a tree defining our code, we can do more checkings easier. We could navigate over the nodes holding a context and checking rules that the grammar don't cover. Some languages adds more metadata to this tree, like types, to constrain the set of programs that the developer can write. Having more constraints on the language keeps you safe while writing you code, avoiding more semantic errors like trying to sum strings or to multiply booleans.
-
-Some languages takes it as an disadvantage because they prefer to be more flexible to what the developer want to write, but it has a lot of trade-offs that I will not write about here.
-
-## Everything comes from trees
-
-With this structured code representation we can do a lot of useful things. The simplest use case is to just navigate over the tree applying the language execution logic to each node.
+At first sight it seems a lot messier than the "naiveInterpreter" implementation but there a lot of advatages that this method gives to us. The biggest one is that this method is modular, each structure of the language has their own parsing logic and it doesn't depends on the other structures.
 
 ```js
 { node: "let",
@@ -167,8 +236,11 @@ With this structured code representation we can do a lot of useful things. The s
   next: { node: "print", value: { node: "variable", value: "x" } } }
 ```
 
-Here we would first get the node "let" and navigate to its "value" node, here we can execute the "sum" node and then store the result as the "value" of the let on the memory using the "var" value as a key to access it later.
-Navigating to the "next" we would find the "print" node where the "value" is the variable "x" in the context and then printing the result of the earlier sum.
+Another thing about this implementation is that it fixed the broken precedence of "naiveInterpreter". Since it has independent logics to high and low precedence operations, it can build the tree representing the right precedence of the operations.
+
+Some languages adds more metadata to this tree like the location of every token on the original source string, this would help the language to give better error messages. It could add the type of each value and expression of the language, if we had types on the tree then it would be possible to create a *type checker*.
+
+With a tree representing our code we can now compute over the program a lot easier, to execute our program we just need to navigate over the tree applying the language execution logic to each node.
 
 Here is an example of how to evaluate this tree structure.
 
@@ -203,13 +275,19 @@ const evaluate = (tree: Print, context: Record<string, number>): number => {
 };
 ```
 
-This way we *interpreted* the code only navigating over the tree and using it to operate a context. This way we made a kind of tree-walking interpreter for our language snippet.
+Here we would first get the node "let" and navigate to its "value" node, here we can execute the "sum" node and then store the result as the "value" of the let on the memory using the "var" value as a key to access it later.
 
-But with this tree structure made easier to transform it into another forms of data, like another languages. We could turn the "let" node into a valid snippet of lua, navigating over the tree and accumulating a source string like [this](https://github.com/bronen/luajit-rinha-de-compiler).
+Navigating to the "next" we would find the "print" node where the "value" is the variable "x" in the context and then printing the result of the earlier sum.
+
+This way we *interpreted* the code only navigating the tree and using it to manipulate a context. This way we made a simple version of a tree-walking interpreter for our language snippet.
+
+But this tree structure keeps easier to transform it into another forms of data too, like another languages. We could compile the "let" node into a valid snippet of lua, navigating over the tree and accumulating a source string like [this compiler project](https://github.com/bronen/luajit-rinha-de-compiler).
 
 ```lua
 -- This way the result would be something like this.
 local x = 2 + 3
 print(x)
 ```
+
+This way instead of parsing the data into a more abstract version, we compile into a more concrete one.
 
