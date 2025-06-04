@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bronen",
+  // Update to today's date
+  "compatibility_date": "2025-06-03",
+  "assets": {
+    "directory": "./dist"
+  }
+}
