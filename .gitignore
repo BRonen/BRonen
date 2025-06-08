@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # nix setup
 .direnv/
+
+# terraform and cloudflare bs
+.terraform/
+.wrangler/
+*.auto.tfvars
+.terraformrc
+*.tfstate
