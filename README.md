@@ -5,5 +5,9 @@
 
   <a href="https://www.linkedin.com/in/brennorodriguess" target="_blank">
     <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white">
-  </a>  
+  </a>
+
+  <a href="https://gist.github.com/BRonen">
+    <img src="https://img.shields.io/badge/-Code Snippets-%233b8640?style=for-the-badge&label=gist&logo=github">
+  </a>
 </section>
