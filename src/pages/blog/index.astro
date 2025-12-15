@@ -6,50 +6,53 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 const articleCollection = await getCollection("article");
+
+console.log(articleCollection);
+
 const articleEntries = articleCollection.filter(
-  (entry) => !entry.data.archived,
+    (entry) => !entry.data.archived,
 );
 ---
 
 <Layout title="Lorem Ipsum">
-  <main
-    class="relative mx-auto pt-8 md:pt-10 px-4 text-latte-text max-w-4xl font-sans h-full"
-  >
-    <nav class="flex gap-8 h-12 mb-6">
-      <a href="/" class="flex items-center gap-3 font-mono text-xl">
-        <LeftArrow />
-        <span>Home</span>
-      </a>
-      <SearchInput placeholder="Search" />
-    </nav>
+    <main
+        class="relative mx-auto pt-8 md:pt-10 px-4 text-latte-text max-w-4xl font-sans h-full"
+    >
+        <nav class="flex gap-8 h-12 mb-6">
+            <a href="/" class="flex items-center gap-3 font-mono text-xl">
+                <LeftArrow />
+                <span>Home</span>
+            </a>
+            <SearchInput placeholder="Search" />
+        </nav>
 
-    <h1 class="text-2xl font-mono font-bold">Posts</h1>
+        <h1 class="text-2xl font-mono font-bold">Posts</h1>
 
-    <blog-articles-list data-entries={JSON.stringify(articleEntries)}>
-      <ul>
-        {
-          articleEntries
-          .sort((f, s) => s.data.created_at - f.data.created_at)
-          .map((articleEntry) => (
-            <li class={articleEntry.slug}>
-              <ArticleCard entry={articleEntry} />
-            </li>
-          ))
-        }
-      </ul>
-      <div class="hidden flex justify-between gap-12 mt-10">
-        <a class="text-latte-text w-48" href="#" id="previous-page-link"
-          >&lt;- previous</a
-        >
-        <a
-          class="hidden text-latte-text w-48 ml-auto text-end"
-          href="#"
-          id="next-page-link">next -&gt;</a
-        >
-      </div>
-    </blog-articles-list>
-    <hr class="absolute bottom-16 w-full border-latte-surface2" />
-  </main>
+        <blog-articles-list data-entries={JSON.stringify(articleEntries)}>
+            <ul>
+                {
+                    articleEntries
+                        .sort((f, s) => s.data.created_at - f.data.created_at)
+                        .map((articleEntry) => (
+                            <li class={articleEntry.id}>
+                                <ArticleCard entry={articleEntry} />
+                            </li>
+                        ))
+                }
+            </ul>
+            <div class="hidden flex justify-between gap-12 mt-10">
+                <a class="text-latte-text w-48" href="#" id="previous-page-link"
+                    >&lt;- previous</a
+                >
+                <a
+                    class="hidden text-latte-text w-48 ml-auto text-end"
+                    href="#"
+                    id="next-page-link">next -&gt;</a
+                >
+            </div>
+        </blog-articles-list>
+        <hr class="absolute bottom-16 w-full border-latte-surface2" />
+    </main>
 
-  <script src="../../components/client/blog.ts"></script>
+    <script src="../../components/client/blog.ts"></script>
 </Layout>

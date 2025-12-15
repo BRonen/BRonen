@@ -9,8 +9,17 @@ export default defineConfig({
   prefetch: true,
   site: "https://bronen.com.br",
 
+  markdown: {
+    syntaxHighlight: "shiki",
+  },
+
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+          ignored: ["**/.direnv/**", "**/.terraform/**"],
+      },
+    },
   },
 
   integrations: [sitemap()],

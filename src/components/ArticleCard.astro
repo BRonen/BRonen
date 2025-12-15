@@ -2,74 +2,73 @@
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  entry: CollectionEntry<"article">;
+    entry: CollectionEntry<"article">;
 }
 
 const {
-  entry: {
-    data: { title, created_at },
-    slug,
-  },
+    entry: {
+        data: { slug, title, created_at },
+    },
 } = Astro.props;
 
 const f_created_at = new Date(created_at).toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
 });
 ---
 
 <a href={`/blog/articles/${slug}`}>
-  <section>
-    <p>{f_created_at}</p>
-    <h2>{title}</h2>
-  </section>
+    <section>
+        <p>{f_created_at}</p>
+        <h2>{title}</h2>
+    </section>
 </a>
 
 <style>
-  a {
-    text-decoration: none;
-    color: #222;
-    width: 100%;
-  }
-  section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 0.5rem;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px dotted black;
-  }
-  a:hover section {
-    border-bottom-style: dashed;
-  }
-  section h2 {
-    margin: 0;
-    text-align: end;
-    font-size: 1rem;
-  }
-  section p {
-    margin: 0;
-    color: #444;
-    font-size: 1rem;
-    margin-top: 0.25rem;
-  }
-  @media (min-width: 767px) {
     a {
-      max-width: 45%;
+        text-decoration: none;
+        color: #222;
+        width: 100%;
     }
     section {
-      align-items: center;
-      justify-content: space-between;
-      gap: 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-top: 0.5rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px dotted black;
+    }
+    a:hover section {
+        border-bottom-style: dashed;
     }
     section h2 {
-      font-size: 1.25rem;
+        margin: 0;
+        text-align: end;
+        font-size: 1rem;
     }
     section p {
-      font-size: 1.25rem;
+        margin: 0;
+        color: #444;
+        font-size: 1rem;
+        margin-top: 0.25rem;
     }
-  }
+    @media (min-width: 767px) {
+        a {
+            max-width: 45%;
+        }
+        section {
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+        }
+        section h2 {
+            font-size: 1.25rem;
+        }
+        section p {
+            font-size: 1.25rem;
+        }
+    }
 </style>

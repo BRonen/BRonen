@@ -1,81 +1,86 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import LeftArrow from "../../../components/icons/LeftArrow.astro";
 import type { InferGetStaticPropsType, GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async () => {
-  const articleEntries = await getCollection("article");
+    const articleEntries = await getCollection("article");
 
-  return articleEntries.map((entry) => {
-    const relatedPosts = entry.data.related_posts?.map((related) =>
-      articleEntries.find((entry) => entry.slug === related.slug),
-    );
+    return articleEntries.map((entry) => {
+        const relatedPosts = entry.data.related_posts?.map((related) =>
+            articleEntries.find((entry) => entry.id === related.id),
+        );
 
-    return {
-      params: { slug: entry.slug },
-      props: { entry, relatedPosts },
-    };
-  });
+        return {
+            params: { slug: entry.id },
+            props: { entry, relatedPosts },
+        };
+    });
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry, relatedPosts } = Astro.props;
 
-const { Content } = await entry.render();
+console.log({ entry });
 ---
 
 <Layout title={entry.data.title}>
-  <main
-    class="relative mx-auto pt-8 md:pt-10 px-4 mb-8 text-latte-text max-w-4xl h-full break-all"
-  >
-    <a href="/blog" class="flex items-center gap-3 font-mono text-xl h-12 mb-6">
-      <LeftArrow />
-      <span>Back</span>
-    </a>
-    <div
-      class="prose prose-latte prose-headings:font-mono prose-p:break-normal prose-p:text-justify w-full max-w-none mb-12"
+    <main
+        class="relative mx-auto pt-8 md:pt-10 px-4 mb-8 text-latte-text max-w-4xl h-full break-all"
     >
-      <Content />
-    </div>
+        <a
+            href="/blog"
+            class="flex items-center gap-3 font-mono text-xl h-12 mb-6"
+        >
+            <LeftArrow />
+            <span>Back</span>
+        </a>
+        <div
+            class="prose prose-latte prose-headings:font-mono prose-p:break-normal prose-p:text-justify w-full max-w-none mb-12"
+        >
+            <Fragment set:html={entry.body} />
+        </div>
 
-    {
-      relatedPosts && (
-        <>
-          <hr class="mb-8 w-full border-latte-surface2" />
+        {
+            relatedPosts && (
+                <>
+                    <hr class="mb-8 w-full border-latte-surface2" />
 
-          <div class="flex mb-32">
-            {relatedPosts[1] && (
-              <a
-                href={`/blog/articles/${relatedPosts[1].slug}`}
-                class="flex break-keep items-center text-xl w-full mb-8"
-              >
-                <span class="mr-4">&larr;</span> {relatedPosts[1].data.title}
-              </a>
-            )}
-            {relatedPosts[0] && (
-              <a
-                href={`/blog/articles/${relatedPosts[0].slug}`}
-                class="flex break-keep items-center text-xl text-end ml-auto mb-8"
-              >
-                {relatedPosts[0].data.title} <span class="ml-4">&rarr;</span>
-              </a>
-            )}
-          </div>
-        </>
-      )
-    }
-  </main>
-  <!-- loading mermaid script -->
-  <script src="../../../scripts/mermaid.ts"></script>
+                    <div class="flex mb-32">
+                        {relatedPosts[1] && (
+                            <a
+                                href={`/blog/articles/${relatedPosts[1].slug}`}
+                                class="flex break-keep items-center text-xl w-full mb-8"
+                            >
+                                <span class="mr-4">&larr;</span>{" "}
+                                {relatedPosts[1].data.title}
+                            </a>
+                        )}
+                        {relatedPosts[0] && (
+                            <a
+                                href={`/blog/articles/${relatedPosts[0].slug}`}
+                                class="flex break-keep items-center text-xl text-end ml-auto mb-8"
+                            >
+                                {relatedPosts[0].data.title}{" "}
+                                <span class="ml-4">&rarr;</span>
+                            </a>
+                        )}
+                    </div>
+                </>
+            )
+        }
+    </main>
+    <!-- loading mermaid script -->
+    <script src="../../../scripts/mermaid.ts"></script>
 </Layout>
 <style is:global>
-  main .astro-code {
-    font-family: monospace;
-    overflow-y: scroll;
-    padding: 0.75rem 1rem;
-  }
-  main .astro-code .line {
-    word-break: break-all;
-  }
+    main .astro-code {
+        font-family: monospace;
+        overflow-y: scroll;
+        padding: 0.75rem 1rem;
+    }
+    main .astro-code .line {
+        word-break: break-all;
+    }
 </style>

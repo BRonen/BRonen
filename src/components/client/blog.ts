@@ -52,19 +52,19 @@ class BlogArticlesList extends HTMLElement {
   }
 
   renderEntries() {
-    this.entries.forEach((entry) => {
-      const itemEl = this.querySelector<HTMLLIElement>(`li.${entry.slug}`);
-      if (!itemEl) return;
+    // this.entries.forEach((entry) => {
+    //   const itemEl = this.querySelector<HTMLLIElement>(`li.${entry.id}`);
+    //   if (!itemEl) return;
 
-      itemEl.style.display = "none";
-    });
+    //   itemEl.style.display = "none";
+    // });
 
     this.entries
       .filter((entry) =>
         entry.data.title.toLowerCase().includes(this.query.toLowerCase()),
       )
       .forEach((entry, index) => {
-        const itemEl = this.querySelector<HTMLLIElement>(`li.${entry.slug}`);
+        const itemEl = this.querySelector<HTMLLIElement>(`li.${entry.id}`);
         if (!itemEl) return;
 
         if (index < this.low || index >= this.high) {
@@ -77,12 +77,12 @@ class BlogArticlesList extends HTMLElement {
   }
 
   renderPaginationButtons() {
-    const entriesLength = this.entries.filter((entry) =>
-      entry.data.title.toLowerCase().includes(this.query.toLowerCase()),
-    );
-
     if (this.nextPageLinkEl) {
-      if (this.currentPage * this.pageSize < entriesLength.length)
+      const entriesLength = this.entries.filter((entry) =>
+        entry.data.title.toLowerCase().includes(this.query.toLowerCase()),
+      ).length;
+
+      if (this.currentPage * this.pageSize < entriesLength)
         this.nextPageLinkEl.style.display = "unset";
       else this.nextPageLinkEl.style.display = "none";
 
